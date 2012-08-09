@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+{% block toollogo %}
+<a href="{{url_for('patscan')}}"><img src="{{url_for('static', filename='patscan_logo.svg')}}" width="100px"></a>
+{% endblock %}
+{% block title %}: PatScan{% endblock %}
+{% block body %}
+  <div class="tagline">
+    Search for a pattern in a genomic sequence.
+  </div>
+
+  <div id="contents">
+
+    <div id="help-container">
+      <span class="fake-link button" data-bind="click: toggleHelp, text: help_description"></span>
+      <span class="fake-link button" data-bind="click: showExamplePattern">Show example pattern</span>
+      <span class="fake-link button">Show example result</span>
+      <div id="helptext" data-bind="slide: help_visible">
+        Help text goes here.
+      </div>
+    </div>
+
+
+    <dl>
+      <div data-bind="template: {name: getTemplate, foreach: pattern_elements}"></div>
+      <dt data-bind="click: addElement">Add another pattern</dt>
+      <dd><img src="{{ url_for('static', filename='add.svg') }}" width="20px" title="Add pattern" data-bind="click: addElement" /></dd>
+    </dl>
+
+    <span class="fake-link button" data-bind="click: togglePattern, text: pattern_description"></span>
+    <span class="fake-link button" data-bind="click: clearPattern">Clear pattern</span>
+    <div data-bind="slide: pattern_visible">
+      <textarea name="pattern" id="pattern" rows="5" cols="80" data-bind="value: pattern" ></textarea>
+    </div>
+
+    <div id="results" data-bind="visible: results_visible">
+      Results:
+      <div>
+        <textarea name="results" id="results" data-bind="value: results, attr: { rows: result_rows, cols: result_cols }"></textarea>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+{% block scripts %}
+<script type="text/html" id="string-pattern-template">
+    <select data-bind="options: available_types, value: type"></select>
+    <label>sequence: <input type="text" data-bind="value: sequence" /></label>
+    <label>mutations: <input type="text" size="4" data-bind="value: mutations" /></label>
+    <label>insertions: <input type="text" size="4" data-bind="value: insertions" /></label>
+    <label>deletions: <input type="text" size="4" data-bind="value: deletions" /></label>
+    <label>named: <input type="checkbox" data-bind="checked: named" /></label>
+    <img src="{{ url_for('static', filename='remove.svg') }}" width="20px" title="Remove pattern" data-bind="click: $parent.removeElement" />
+    <img src="{{ url_for('static', filename='add_before.svg') }}" width="20px" title="Add pattern in front of this one" data-bind="click: $parent.addBefore" />
+    <br>
+</script>
+
+<script type="text/html" id="range-pattern-template">
+    <select data-bind="options: available_types, value: type"></select>
+    <label>from: <input type="text" size="4" data-bind="value: from" /></label>
+    <label>to: <input type="text" size="4" data-bind="value: to" /></label>
+    <label>named: <input type="checkbox" data-bind="checked: named" /></label>
+    <img src="{{ url_for('static', filename='remove.svg') }}" width="20px" title="Remove pattern" data-bind="click: $parent.removeElement" />
+    <img src="{{ url_for('static', filename='add_before.svg') }}" width="20px" title="Add pattern in front of this one" data-bind="click: $parent.addBefore" />
+    <br>
+</script>
+
+<script type="text/html" id="complement-pattern-template">
+    <select data-bind="options: available_types, value: type"></select>
+    <label>of: <select data-bind="options: $parent.availableElements,
+                                  optionsCaption: 'pick..',
+                                  optionsText: function(item) {return item.getName()},
+                                  value: reference"></select></label>
+    <label>mutations: <input type="text" size="4" data-bind="value: mutations" /></label>
+    <label>insertions: <input type="text" size="4" data-bind="value: insertions" /></label>
+    <label>deletions: <input type="text" size="4" data-bind="value: deletions" /></label>
+    <label>named: <input type="checkbox" data-bind="checked: named" /></label>
+    <img src="{{ url_for('static', filename='remove.svg') }}" width="20px" title="Remove pattern" data-bind="click: $parent.removeElement" />
+    <img src="{{ url_for('static', filename='add_before.svg') }}" width="20px" title="Add pattern in front of this one" data-bind="click: $parent.addBefore" />
+    <br>
+</script>
+
+<script type="text/html" id="repeat-pattern-template">
+    <select data-bind="options: available_types, value: type"></select>
+    <label>of: <select data-bind="options: $parent.availableElements,
+                                  optionsCaption: 'pick..',
+                                  optionsText: function(item) {return item.getName()},
+                                  value: reference"></select></label>
+    <label>mutations: <input type="text" size="4" data-bind="value: mutations" /></label>
+    <label>insertions: <input type="text" size="4" data-bind="value: insertions" /></label>
+    <label>deletions: <input type="text" size="4" data-bind="value: deletions" /></label>
+    <label>named: <input type="checkbox" data-bind="checked: named" /></label>
+    <img src="{{ url_for('static', filename='remove.svg') }}" width="20px" title="Remove pattern" data-bind="click: $parent.removeElement" />
+    <img src="{{ url_for('static', filename='add_before.svg') }}" width="20px" title="Add pattern in front of this one" data-bind="click: $parent.addBefore" />
+    <br>
+</script>
+
+<script type="text/html" id="notimplemented-pattern-template">
+    <select data-bind="options: available_types, value: type"></select>
+    <span>Not implemented</span>
+    <label>named: <input type="checkbox" data-bind="checked: named" /></label>
+    <img src="{{ url_for('static', filename='remove.svg') }}" width="20px" title="Remove pattern" data-bind="click: $parent.removeElement" />
+    <img src="{{ url_for('static', filename='add_before.svg') }}" width="20px" title="Add pattern in front of this one" data-bind="click: $parent.addBefore" />
+</script>
+
+<script src="{{ url_for('static', filename='knockout.js') }}"></script>
+
+<script src="{{ url_for('patscanjs') }}"></script>
+{% endblock %}
