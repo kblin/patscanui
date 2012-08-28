@@ -16,11 +16,40 @@
           <h3><a href="#">Nucleotide Ambiguity Codes</a></h3>
           <div>
             <p>
-            A table with ambiguity codes.
-            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+            <table id="ambiguity-table">
+              <thead>
+                <tr>
+                  <td class="legend">Code</td>
+                  <td>M</td>
+                  <td>R</td>
+                  <td>W</td>
+                  <td>S</td>
+                  <td>Y</td>
+                  <td>K</td>
+                  <td>V</td>
+                  <td>H</td>
+                  <td>D</td>
+                  <td>B</td>
+                  <td>N</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="legend">Nucleotides</td>
+                  <td>A, C</td>
+                  <td>A, G</td>
+                  <td>A, T</td>
+                  <td>C, G</td>
+                  <td>C, T</td>
+                  <td>G, T</td>
+                  <td>A, C, G</td>
+                  <td>A, C, T</td>
+                  <td>A, G, T</td>
+                  <td>C, G, T</td>
+                  <td>A, C, G, T</td>
+                </tr>
+              </tbody>
+            </table>
             </p>
           </div>
           <h3><a href="#">Common Patterns</a></h3>
@@ -38,6 +67,7 @@
         <div id="upload">
           <form>
             <input id="new-file" type="file" name="file">
+            <button data-bind="click: fakeInput">fake</button>
           </form>
         </div>
 
@@ -254,7 +284,7 @@
       <label data-bind="visible: show">Deletions: <input type="text" size="3" data-bind="value: deletions" /></label>
     </script>
 
-    <script src="{{ url_for('static', filename="js/jquery-1.7.2.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="js/jquery-1.8.0.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/knockout.js") }}"></script>
@@ -296,6 +326,7 @@
         $('#pattern').toggle();
         $('#result').toggle();
         $('#pattern-selections').toggle();
+        $('.common-patterns').toggle();
       }
 
       $(document).ready(function() {
@@ -317,7 +348,7 @@
           of: $('#contents'),
           my: "left top",
           at: "right top",
-          offset: "40% 0",
+          offset: "40% 20px",
           });
 
         $("#footer").position({

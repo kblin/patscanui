@@ -469,6 +469,10 @@ function PatScanViewModel() {
         self.refreshButtons();
     }
 
+    self.fakeInput = function() {
+        toggle_visibility();
+    }
+
 }
 
 function SetViewModel(view_model) {
