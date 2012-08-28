@@ -104,7 +104,7 @@
         </div>
 
         <div id="upload" data-bind="visible: showUploadMenu()">
-          <p id="upload-message">Before you start, please uplaod the DNA FASTA file you want to search.</p>
+          <p id="upload-message" data-bind="text: upload_message"></p>
           <form>
             <input id="new-file" type="file" name="file">
           </form>
@@ -339,49 +339,6 @@
     <script src="{{ url_for('static', filename="js/patscan-viewmodel.js") }}"></script>
     <script type="text/javascript">
 
-      var last_pattern = "";
-
-      function submit_pattern_send() {
-        var view_model = GetViewModel();
-        if (view_model.current_file() == "") {
-          return;
-        }
-
-        url = "{{ url_for('check', filename='') }}" + view_model.current_file();
-        $.ajax({
-          url: url,
-          dataType: "json"
-        }).done(submit_pattern_checked);
-      }
-
-      function submit_pattern_checked(json) {
-        var view_model = GetViewModel();
-
-        console.log(json);
-
-        if (!json.available) {
-          view_model.current_file('');
-          $('#upload-message').text('Session timed out, please reupload the file');
-        }
-
-        if (! view_model.preview()) {
-          return;
-        }
-
-        if (last_pattern == view_model.pattern()) {
-          console.log("Pattern unchanged");
-          return;
-        }
-
-        last_pattern = view_model.pattern();
-        view_model.processing(true);
-        console.log("Would submit pattern " + view_model.pattern());
-        setTimeout(function() {
-          view_model.processing(false);
-          view_model._result("Fake result " + new Date());
-        }, 2000);
-      }
-
       $(document).ready(function() {
         var view_model = new PatScanViewModel();
         ko.applyBindings(view_model);
@@ -451,6 +408,7 @@
             if(response.result == "ok") {
               view_model.current_file(response.filename);
             }
+            $("#new-file").val('');
           },
           valid_extensions: ['fa', 'fasta', 'fna', 'faa', 'txt']
         });

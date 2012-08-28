@@ -471,6 +471,8 @@ function PatScanViewModel() {
         self.refreshButtons();
     }
 
+    self.upload_message = ko.observable("Before you start, please uplaod the DNA FASTA file you want to search.");
+
     self.showUploadMenu = ko.computed(function() {
         if (self.current_file() == '') {
             return true;
@@ -486,7 +488,7 @@ function PatScanViewModel() {
             return;
         }
         self.submit();
-    }).extend({ throttle: 2000 });
+    }).extend({ throttle: 10000 });
 
     self.submit = function() {
         if (self.pattern() == '') {
@@ -499,6 +501,25 @@ function PatScanViewModel() {
             self._result('fake result at ' + new Date());
         }, 2000);
     }
+
+    // Fake value to allow retriggering the validity check
+    self.validity_check = ko.observable(false);
+    self.session_still_valid = ko.computed(function() {
+        if (self.current_file() == '') {
+            return false;
+        }
+        $.getJSON('check/' + self.current_file(),
+            function(data) {
+                if (!data.available) {
+                    self.upload_message("Session timed out, please reupload file");
+                    self.current_file('');
+                }
+            });
+
+        // and now flip the fake value to trigger reevaluation
+        self.validity_check(!self.validity_check())
+        return true;
+    }).extend({ throttle: 5000 });
 }
 
 function SetViewModel(view_model) {
