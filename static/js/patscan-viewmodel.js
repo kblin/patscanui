@@ -496,10 +496,13 @@ function PatScanViewModel() {
         }
         console.log("Submitting: " + self.pattern());
         self.processing(true);
-        setTimeout(function() {
+        var data = { pattern: self.pattern(),
+                     filename: self.current_file()
+                   };
+        $.post('analyze', data, function(data) {
             self.processing(false);
-            self._result('fake result at ' + new Date());
-        }, 2000);
+            self._result(data);
+        }, 'text');
     }
 
     // Fake value to allow retriggering the validity check

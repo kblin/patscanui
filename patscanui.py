@@ -30,12 +30,14 @@ ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 def index():
     return render_template('index.html')
 
-@app.route('/check/<filename>')
-def check(filename):
+def _is_available(filename):
     udir = app.config['UPLOAD_FOLDER']
     filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
-    available = filename in filelist
+    return filename in filelist
 
+@app.route('/check/<filename>')
+def check(filename):
+    available = _is_available(filename)
     return jsonify(available=available)
 
 def allowed_filename(name):
@@ -50,10 +52,17 @@ def upload():
         return jsonify(result="ok", filename=filename)
     return jsonify(result="error", message="invalid filename")
 
-@app.route('/analyze', methods=['get', 'post'])
+@app.route('/analyze', methods=['post'])
 def analyze():
-    result = {'status': "error", 'message': "Not implemented"}
-    return jsonify(result)
+    pattern = request.form.get('pattern', None)
+    filename = request.form.get('filename', None)
+
+    if filename is None or not _is_available(filename):
+        return "session expired"
+
+    if pattern is None:
+        return "No pattern given"
+    return "Fake result for %s" % pattern
 
 @app.route('/patscan.js')
 def patscanjs():
