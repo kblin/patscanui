@@ -104,7 +104,7 @@
         </div>
 
         <div id="upload">
-          <p>Before you start, please uplaod the DNA FASTA file you want to search.</p>
+          <p id="upload-message">Before you start, please uplaod the DNA FASTA file you want to search.</p>
           <form>
             <input id="new-file" type="file" name="file">
             <button data-bind="click: fakeInput">fake</button>
@@ -327,6 +327,7 @@
     <script src="{{ url_for('static', filename="js/jquery-1.8.0.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="js/jquery.ajaxfileupload.js") }}"></script>
     <script src="{{ url_for('static', filename="js/knockout.js") }}"></script>
     <script src="{{ url_for('static', filename="js/knockout-sortable.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/knockout-sortable-receive.js") }}"></script>
@@ -338,8 +339,29 @@
 
       var last_pattern = "";
       var current_file = "";
+      var once_uploaded = false;
 
-      function SubmitPattern() {
+      function submit_pattern_send() {
+        if (current_file == "") {
+          return;
+        }
+
+        url = "{{ url_for('check', filename='') }}" + current_file;
+        $.ajax({
+          url: url,
+          dataType: "json"
+        }).done(submit_pattern_checked);
+      }
+
+      function submit_pattern_checked(json) {
+
+        if (!json.available && once_uploaded) {
+          once_uploaded = false;
+          current_file = "";
+          $('#upload-message').text('Session timed out, please reupload the file');
+          toggle_visibility();
+        }
+
         var view_model = GetViewModel();
         if (! view_model.preview()) {
           return;
@@ -427,12 +449,22 @@
             text: false
         });
 
-        $('#new-file').change(function() {
-          current_file = 'fake.fa'
-          toggle_visibility();
-        });
         toggle_visibility();
-        setInterval(SubmitPattern, 20000);
+
+        $('#new-file').ajaxfileupload({
+          action: "{{ url_for('upload') }}",
+          onComplete: function(response) {
+            console.log(response);
+            if(response.result == "ok") {
+              current_file = response.filename;
+              once_uploaded = true;
+              toggle_visibility();
+            }
+          },
+          valid_extensions: ['fa', 'fasta', 'fna', 'faa', 'txt']
+        });
+
+      setInterval(submit_pattern_send, 2000);
 
       });
     </script>

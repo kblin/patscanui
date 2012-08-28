@@ -30,12 +30,13 @@ ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 def index():
     return render_template('index.html')
 
-@app.route('/list')
-def listfiles():
+@app.route('/check/<filename>')
+def check(filename):
     udir = app.config['UPLOAD_FOLDER']
     filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
+    available = filename in filelist
 
-    return jsonify(files=filelist)
+    return jsonify(available=available)
 
 def allowed_filename(name):
     return '.' in name and name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
