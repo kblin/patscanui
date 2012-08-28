@@ -371,6 +371,8 @@ function PatScanViewModel() {
     self.pattern_list = ko.observableArray([]);
     self.trash = ko.observableArray([]);
 
+    self.current_file = ko.observable('');
+
     self.molecule = ko.observable("DNA");
     self.allow_named = true;
 
@@ -469,10 +471,34 @@ function PatScanViewModel() {
         self.refreshButtons();
     }
 
-    self.fakeInput = function() {
-        toggle_visibility();
-    }
+    self.showUploadMenu = ko.computed(function() {
+        if (self.current_file() == '') {
+            return true;
+        }
+        return false;
+    }, self);
 
+    self.periodic_update = ko.computed(function() {
+        if (!self.preview()) {
+            return;
+        }
+        if (self.pattern() == '') {
+            return;
+        }
+        self.submit();
+    }).extend({ throttle: 2000 });
+
+    self.submit = function() {
+        if (self.pattern() == '') {
+            return;
+        }
+        console.log("Submitting: " + self.pattern());
+        self.processing(true);
+        setTimeout(function() {
+            self.processing(false);
+            self._result('fake result at ' + new Date());
+        }, 2000);
+    }
 }
 
 function SetViewModel(view_model) {

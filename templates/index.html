@@ -103,15 +103,14 @@
           </div>
         </div>
 
-        <div id="upload">
+        <div id="upload" data-bind="visible: showUploadMenu()">
           <p id="upload-message">Before you start, please uplaod the DNA FASTA file you want to search.</p>
           <form>
             <input id="new-file" type="file" name="file">
-            <button data-bind="click: fakeInput">fake</button>
           </form>
         </div>
 
-        <div id="settings">
+        <div id="settings" data-bind="visible: !showUploadMenu()">
           <ul id="menu">
             <li id="molecule-type">
               <input type="radio" name="molecule" id="DNA" value="DNA" data-bind="checked: molecule" /><label for="DNA">DNA</label>
@@ -127,31 +126,34 @@
             <li>
               <button id="demo-button" data-bind="click: demo">Show Example</button>
             </li>
+            <li>
+              <button id="submit-button" data-bind="click: submit">Submit</button>
+            </li>
           </ul>
         </div>
 
-        <div id="drop-area">
+        <div id="drop-area" data-bind="visible: !showUploadMenu()">
           <div data-bind="visible: pattern_list().length == 0">Drop new patterns here</div>
           <div id="pattern-list" data-bind="sortable: {template: getTemplate, data: pattern_list, options: {distance: 5, paceholder: 'placeholder'},
                                             afterMove: refreshButtons}">
           </div>
         </div>
 
-        <div id="pattern">
+        <div id="pattern" data-bind="visible: !showUploadMenu()">
           <h3><a href="#">Computed Pattern</a></h3>
           <div>
             <textarea data-bind="value: pattern, attr: {cols: 80, rows: 2}"></textarea>
           </div>
         </div>
 
-        <div id="result">
+        <div id="result" data-bind="visible: !showUploadMenu()">
           <p>Results:<br>
           <textarea data-bind="value: result, attr: {cols: 80, rows: 4}"></textarea>
         </div>
 
       </div>
 
-      <div id="pattern-selections">
+      <div id="pattern-selections" data-bind="visible: !showUploadMenu()">
 
         <ul class="prototype-container" data-bind="foreach: constructors">
           <li class="prototype" data-bind="drag: constructor, text: text,
@@ -338,15 +340,14 @@
     <script type="text/javascript">
 
       var last_pattern = "";
-      var current_file = "";
-      var once_uploaded = false;
 
       function submit_pattern_send() {
-        if (current_file == "") {
+        var view_model = GetViewModel();
+        if (view_model.current_file() == "") {
           return;
         }
 
-        url = "{{ url_for('check', filename='') }}" + current_file;
+        url = "{{ url_for('check', filename='') }}" + view_model.current_file();
         $.ajax({
           url: url,
           dataType: "json"
@@ -354,15 +355,15 @@
       }
 
       function submit_pattern_checked(json) {
+        var view_model = GetViewModel();
 
-        if (!json.available && once_uploaded) {
-          once_uploaded = false;
-          current_file = "";
+        console.log(json);
+
+        if (!json.available) {
+          view_model.current_file('');
           $('#upload-message').text('Session timed out, please reupload the file');
-          toggle_visibility();
         }
 
-        var view_model = GetViewModel();
         if (! view_model.preview()) {
           return;
         }
@@ -379,16 +380,6 @@
           view_model.processing(false);
           view_model._result("Fake result " + new Date());
         }, 2000);
-      }
-
-      function toggle_visibility() {
-        $('#upload').toggle();
-        $('#settings').toggle();
-        $('#drop-area').toggle();
-        $('#pattern').toggle();
-        $('#result').toggle();
-        $('#pattern-selections').toggle();
-        $('.common-patterns').toggle();
       }
 
       $(document).ready(function() {
@@ -436,6 +427,10 @@
           icons: { primary: "ui-icon-refresh" }
         });
 
+        $("#submit-button").button({
+          icons: { primary: "ui-icon-play" }
+          });
+
         $("#molecule-type").buttonset();
 
         $(".toggle").button();
@@ -449,23 +444,16 @@
             text: false
         });
 
-        toggle_visibility();
 
         $('#new-file').ajaxfileupload({
           action: "{{ url_for('upload') }}",
           onComplete: function(response) {
-            console.log(response);
             if(response.result == "ok") {
-              current_file = response.filename;
-              once_uploaded = true;
-              toggle_visibility();
+              view_model.current_file(response.filename);
             }
           },
           valid_extensions: ['fa', 'fasta', 'fna', 'faa', 'txt']
         });
-
-      setInterval(submit_pattern_send, 2000);
-
       });
     </script>
 {% endblock %}
