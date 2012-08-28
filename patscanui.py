@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import uuid
-from os import path, listdir
+from os import path, listdir, utime
 from flask import Flask, render_template, request, jsonify, after_this_request
 from flask import send_from_directory
 
@@ -52,6 +52,11 @@ def upload():
         return jsonify(result="ok", filename=filename)
     return jsonify(result="error", message="invalid filename")
 
+
+def _update_timestamp(filename):
+    udir = app.config['UPLOAD_FOLDER']
+    utime(path.join(udir, filename), None)
+
 @app.route('/analyze', methods=['post'])
 def analyze():
     pattern = request.form.get('pattern', None)
@@ -62,6 +67,9 @@ def analyze():
 
     if pattern is None:
         return "No pattern given"
+
+    _update_timestamp(filename)
+
     return "Fake result for %s" % pattern
 
 @app.route('/patscan.js')
