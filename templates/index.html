@@ -6,11 +6,45 @@
           <h3><a href="#">Basic Usage</a></h3>
           <div>
             <p>
-            Basic usage explained here.
-            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+            As a first step, you need to upload a sequence file in FASTA format.
+            This is the sequence you can search using PatScan. The file will be
+            kept on the server as long as you work on it and deleted an hour
+            after you finished using the software.
+            </p>
+            <p>
+            Once your file is uploaded, you can specify a pattern by dragging
+            pattern elements from the menu bar on the right side of the screen
+            to the work area. Once the pattern element is on the work area, you
+            can fill in details, and reorder the elements by dragging them
+            around.
+            </p>
+            <p>
+            Above the pattern area, there is a configuration menu containing a
+            couple of buttons to adjust the software.
+            </p>
+
+            <p>
+            The <b>DNA/Protein</b> selector allows you to tell PatScan what
+            kind of sequence file you uploaded.  This affects the selection of
+            available pattern elements.
+            </p>
+
+            <p>
+            While working on the pattern, you can switch on the <b>continuous
+            preview</b>, that will regularly search your uploaded sequence
+            for the currently selected pattern. This will allow you to tweak
+            the pattern until you get the desired result.
+            </br>
+
+            <p>
+            If you want to get rid of the current pattern elements, you can
+            clear all of them using the <b>clear</b> button. Alternatively, you
+            may drag single elements onto the trash on the right hand menu.
+            </p>
+
+            <p>
+            If you want to get an example of many of the possible pattern elements,
+            you can load an <b>example</b>.
             </p>
           </div>
           <h3><a href="#">Nucleotide Ambiguity Codes</a></h3>
@@ -65,6 +99,7 @@
         </div>
 
         <div id="upload">
+          <p>Before you start, please uplaod the DNA FASTA file you want to search.</p>
           <form>
             <input id="new-file" type="file" name="file">
             <button data-bind="click: fakeInput">fake</button>
@@ -105,7 +140,7 @@
         </div>
 
         <div id="result">
-          <p>Results:
+          <p>Results:<br>
           <textarea data-bind="value: result, attr: {cols: 80, rows: 4}"></textarea>
         </div>
 
