@@ -487,6 +487,12 @@ function PatScanViewModel() {
         if (self.pattern() == '') {
             return;
         }
+
+        // session might have timed out while waiting
+        if (self.current_file() == '') {
+            return;
+        }
+
         self.submit();
     }).extend({ throttle: 10000 });
 
@@ -501,6 +507,12 @@ function PatScanViewModel() {
                    };
         $.post('analyze', data, function(data) {
             self.processing(false);
+
+            // Don't overwrite results when session is expired.
+            if (data == "session expired") {
+                return;
+            }
+
             self._result(data);
         }, 'text');
     }

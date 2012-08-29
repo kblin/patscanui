@@ -16,9 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import uuid
+import subprocess
 from os import path, listdir, utime
 from flask import Flask, render_template, request, jsonify, after_this_request
 from flask import send_from_directory
+from helperlibs.wrappers.io import TemporaryPipe
 
 app = Flask(__name__)
 app.secret_key = "secret"
@@ -57,6 +59,27 @@ def _update_timestamp(filename):
     udir = app.config['UPLOAD_FOLDER']
     utime(path.join(udir, filename), None)
 
+
+def _run_patscan(filename, pattern):
+    try:
+        full_path = path.join(app.config['UPLOAD_FOLDER'], filename)
+        with open(full_path, 'r') as handle:
+            with TemporaryPipe() as pipe:
+                command_line = ['patscan', '-c', pipe]
+                p1 = subprocess.Popen(command_line, stdin=handle, stdout=subprocess.PIPE)
+                with open(pipe, 'w') as w:
+                    w.write(pattern)
+                p2 = subprocess.Popen(['patscan_show_hits'], stdin=p1.stdout, stdout=subprocess.PIPE)
+                p1.stdout.close()
+                result, error = p2.communicate()
+    except IOError as e:
+        result = "Running patscan failed: %r" % e
+    except OSError as e:
+        result = "Running patscan failed: %r" % e
+
+    return result
+
+
 @app.route('/analyze', methods=['post'])
 def analyze():
     pattern = request.form.get('pattern', None)
@@ -70,7 +93,9 @@ def analyze():
 
     _update_timestamp(filename)
 
-    return "Fake result for %s" % pattern
+    result = _run_patscan(filename, pattern)
+
+    return result
 
 @app.route('/patscan.js')
 def patscanjs():
