@@ -500,7 +500,6 @@ function PatScanViewModel() {
         if (self.pattern() == '') {
             return;
         }
-        console.log("Submitting: " + self.pattern());
         self.processing(true);
         var data = { pattern: self.pattern(),
                      filename: self.current_file()
@@ -510,6 +509,11 @@ function PatScanViewModel() {
 
             // Don't overwrite results when session is expired.
             if (data == "session expired") {
+                return;
+            }
+
+            if (data == "") {
+                self._result("No results found for input pattern.");
                 return;
             }
 
