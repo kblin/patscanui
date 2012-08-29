@@ -410,6 +410,7 @@ function PatScanViewModel() {
         }
         return plist.join(' ');
     }, self);
+    self.last_pattern = ko.observable('');
 
     self._result = ko.observable();
     self.processing = ko.observable(false);
@@ -488,6 +489,14 @@ function PatScanViewModel() {
             return;
         }
 
+        /* In theory we should only be called if the pattern changed,
+         * but if the user clicked submit during the wait time, we already
+         * know the results for this pattern
+         */
+        if (self.last_pattern() == self.pattern()) {
+            return;
+        }
+
         // session might have timed out while waiting
         if (self.current_file() == '') {
             return;
@@ -506,6 +515,7 @@ function PatScanViewModel() {
                    };
         $.post('analyze', data, function(data) {
             self.processing(false);
+            self.last_pattern(self.pattern());
 
             // Don't overwrite results when session is expired.
             if (data == "session expired") {
