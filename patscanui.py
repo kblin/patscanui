@@ -18,7 +18,7 @@
 import uuid
 import subprocess
 from os import path, listdir, utime
-from flask import Flask, render_template, request, jsonify, after_this_request
+from flask import Flask, render_template, request, jsonify
 from flask import send_from_directory
 from helperlibs.wrappers.io import TemporaryPipe
 
@@ -97,13 +97,6 @@ def analyze():
 
     return result
 
-@app.route('/patscan.js')
-def patscanjs():
-    @after_this_request
-    def fixup_mimetype(response):
-        response.mimetype = "text/javascript"
-        return response
-    return render_template('patscan.js')
 
 @app.route('/favicon.ico')
 def favicon():
