@@ -511,7 +511,8 @@ function PatScanViewModel() {
         }
         self.processing(true);
         var data = { pattern: self.pattern(),
-                     filename: self.current_file()
+                     filename: self.current_file(),
+                     molecule: self.molecule()
                    };
         $.post('analyze', data, function(data) {
             self.processing(false);
