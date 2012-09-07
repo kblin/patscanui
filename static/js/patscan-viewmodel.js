@@ -568,6 +568,8 @@ function PatScanViewModel() {
     self.molecule = ko.observable("DNA");
     self.allow_named = true;
 
+    self.provided = ko.observable(false);
+
     self.getTemplate = function(element) {
         return element.getTemplateType() + "-template";
     }
@@ -685,14 +687,20 @@ function PatScanViewModel() {
         self.refreshButtons();
     }
 
-    self.upload_message = ko.observable("Before you start, please uplaod the DNA FASTA file you want to search.");
+    self.upload_message = ko.observable("Before you start, please uplaod the DNA FASTA file you want to search");
 
     self.showUploadMenu = ko.computed(function() {
+        if (self.provided()) {
+            self.current_file(self.provided());
+        }
+
         if (self.current_file() == '') {
             return true;
         }
         return false;
     }, self);
+
+    self.allProvidedFiles = ko.observableArray([]);
 
     self.periodic_update = ko.computed(function() {
         if (!self.preview()) {
@@ -725,6 +733,7 @@ function PatScanViewModel() {
         self.processing(true);
         var data = { pattern: self.pattern(),
                      filename: self.current_file(),
+                     provided: self.provided() ? "true" : "false",
                      molecule: self.molecule()
                    };
         $.post('analyze', data, function(data) {
@@ -748,6 +757,9 @@ function PatScanViewModel() {
     // Fake value to allow retriggering the validity check
     self.validity_check = ko.observable(false);
     self.session_still_valid = ko.computed(function() {
+        if (self.provided()) {
+            return true;
+        }
         if (self.current_file() == '') {
             return false;
         }

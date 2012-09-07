@@ -114,6 +114,10 @@
           <form>
             <input id="new-file" type="file" name="file">
           </form>
+          <p>or pick one of the following provided genomes:</p>
+          <select data-bind="options: allProvidedFiles,
+                             value: provided,
+                             optionsCaption: 'Choose...'"></select>
         </div>
 
         <div id="settings" data-bind="visible: !showUploadMenu()">
@@ -347,6 +351,10 @@
         var view_model = new PatScanViewModel();
         ko.applyBindings(view_model);
         SetViewModel(view_model);
+
+        $.getJSON('available', function(data) {
+          view_model.allProvidedFiles(data.available_files);
+        });
 
         $("#helpcontent").accordion({
           active: false,

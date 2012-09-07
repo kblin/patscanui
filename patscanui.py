@@ -25,6 +25,7 @@ from helperlibs.wrappers.io import TemporaryPipe
 app = Flask(__name__)
 app.secret_key = "secret"
 app.config['UPLOAD_FOLDER'] = '/memdisk/store'
+app.config['PROVIDED_FOLDER'] = '/data/genomes/fasta'
 
 ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 
@@ -32,10 +33,19 @@ ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 def index():
     return render_template('index.html')
 
-def _is_available(filename):
-    udir = app.config['UPLOAD_FOLDER']
+def _is_available(filename, provided=False):
+    if provided:
+        udir = app.config['PROVIDED_FOLDER']
+    else:
+        udir = app.config['UPLOAD_FOLDER']
     filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
     return filename in filelist
+
+@app.route('/available')
+def available():
+    udir = app.config['PROVIDED_FOLDER']
+    filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
+    return jsonify(available_files=filelist)
 
 @app.route('/check/<filename>')
 def check(filename):
@@ -60,9 +70,12 @@ def _update_timestamp(filename):
     utime(path.join(udir, filename), None)
 
 
-def _run_patscan(filename, pattern, molecule_type):
+def _run_patscan(filename, provided, pattern, molecule_type):
     try:
-        full_path = path.join(app.config['UPLOAD_FOLDER'], filename)
+        if provided:
+            full_path = path.join(app.config['PROVIDED_FOLDER'], filename)
+        else:
+            full_path = path.join(app.config['UPLOAD_FOLDER'], filename)
         with open(full_path, 'r') as handle:
             with TemporaryPipe() as pipe:
                 command_line = ['patscan', '-c']
@@ -88,16 +101,18 @@ def analyze():
     pattern = request.form.get('pattern', None)
     filename = request.form.get('filename', None)
     molecule_type = request.form.get('molecule', 'DNA')
+    provided = True if request.form.get('provided', "false") == "true" else False
 
-    if filename is None or not _is_available(filename):
+    if filename is None or not _is_available(filename, provided):
         return "session expired"
 
     if pattern is None:
         return "No pattern given"
 
-    _update_timestamp(filename)
+    if not provided:
+        _update_timestamp(filename)
 
-    result = _run_patscan(filename, pattern, molecule_type)
+    result = _run_patscan(filename, provided, pattern, molecule_type)
 
     return result
 
