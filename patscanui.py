@@ -45,6 +45,7 @@ def _is_available(filename, provided=False):
 def available():
     udir = app.config['PROVIDED_FOLDER']
     filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
+    filelist.sort()
     return jsonify(available_files=filelist)
 
 @app.route('/check/<filename>')
