@@ -806,6 +806,7 @@ function PatScanViewModel() {
             self.pattern_list.push(pattern);
         }
         self.refreshButtons();
+        self.json('');
     }
 }
 
