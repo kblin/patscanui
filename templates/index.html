@@ -91,18 +91,22 @@
             </table>
             </p>
           </div>
-          <!--
-          <h3><a href="#">Common Patterns</a></h3>
+          <h3><a href="#">Advanced Features</a></h3>
           <div>
-            <p>
-            A couple of common patterns should be selectable from here.
-            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
-            </p>
+            <ul class="menu">
+              <li>
+                <button id="demo-button" data-bind="click: demo, visible: !showUploadMenu()">Show Example</button>
+              </li>
+              <li>
+                <button id="save-button" data-bind="click: save, visible: !showUploadMenu()">Save Pattern</button>
+              </li>
+              <li>
+                <button id="load-button" data-bind="click: load, visible: !showUploadMenu()">Load Pattern</button>
+              </li>
+            </ul>
+            <br>
+            <textarea rows="3" cols="40" data-bind="value: json, visible: !showUploadMenu()"></textarea>
           </div>
-          -->
         </div>
 
         <div id="upload" data-bind="visible: showUploadMenu()">
@@ -113,7 +117,7 @@
         </div>
 
         <div id="settings" data-bind="visible: !showUploadMenu()">
-          <ul id="menu">
+          <ul class="menu">
             <li id="molecule-type">
               <input type="radio" name="molecule" id="DNA" value="DNA" data-bind="checked: molecule" /><label for="DNA">DNA</label>
               <input type="radio" name="molecule" id="protein" value="protein" data-bind="checked: molecule" /><label for="protein">Protein</label>
@@ -124,9 +128,6 @@
             </li>
             <li>
               <button id="clear-button" data-bind="click: clearPatterns">Clear all Patterns</button>
-            </li>
-            <li>
-              <button id="demo-button" data-bind="click: demo">Show Example</button>
             </li>
             <li>
               <button id="submit-button" data-bind="click: submit">Submit</button>
@@ -379,6 +380,13 @@
           icons: { primary: "ui-icon-lightbulb" }
         });
 
+        $("#save-button").button({
+          icons: { primary: "ui-icon-disk" }
+        });
+
+        $("#load-button").button({
+          icons: { primary: "ui-icon-folder-open" }
+        });
 
         $("#clear-button").button({
           icons: { primary: "ui-icon-trash" }

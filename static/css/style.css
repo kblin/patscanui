@@ -47,17 +47,24 @@ a:active { color: #810E15 }
     border-radius: 8px;
 }
 
+#helpcontent {
+    font-size: 90%;
+}
+#helpcontent li {
+    font-size: 70%;
+}
+
 #upload {
     padding-top: 1em;
 }
 
-#menu {
+.menu {
     list-style-type: none;
     margin: 0;
     padding: 1em 0;
 }
 
-#menu li {
+.menu li {
     float: left;
     padding-right: 2em;
 }

@@ -16,13 +16,47 @@ function VariationSet(mutations, insertions, deletions) {
 
         return "[" + mut + "," + ins + "," + del + "]";
     }, self);
+
+    self.toJS = function() {
+        return { mutations: self.mutations(),
+                 insertions: self.insertions(),
+                 deletions: self.deletions(),
+                 active: self.show() };
+    }
+
+    self.fromJS = function(obj) {
+        self.mutations(obj.mutations);
+        self.insertions(obj.insertions);
+        self.deletions(obj.deletions);
+        self.show(obj.active);
+    }
+}
+
+function Pattern(type) {
+    var self = this;
+    self.type = type;
+    self.named = ko.observable(false);
+
+    self.getTemplateType = function() {
+        return self.type;
+    }
+
+    self.toJS = function() {
+        return { type: self.type,
+                 named: self.named() };
+    }
+
+    self.fromJS = function(obj) {
+        self.named(obj.named);
+        self.type = obj.type;
+    }
+
 }
 
 function StringPattern(sequence, mutations, insertions, deletions) {
     var self = this;
+    self.__proto__ = new Pattern('string');
 
-    self.type = "string";
-    self.named = ko.observable(false);
     self.sequence = ko.observable(sequence);
     self.variations = new VariationSet(mutations, insertions, deletions);
 
@@ -33,20 +67,29 @@ function StringPattern(sequence, mutations, insertions, deletions) {
         return self.sequence() + self.variations.getPattern();
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
-    }
-
     self.reverseComplement = function() {
         self.sequence(reverse_complement(self.sequence()));
+    }
+
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.variations = self.variations.toJS();
+        obj.sequence = self.sequence();
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.sequence(obj.sequence);
+        self.variations = new VariationSet();
+        self.variations.fromJS(obj.variations);
     }
 }
 
 function RangePattern(from, to) {
     var self = this;
+    self.__proto__ = new Pattern('range');
 
-    self.type = 'range';
-    self.named = ko.observable(false);
     self.from = ko.observable(from);
     self.to = ko.observable(to);
 
@@ -62,16 +105,24 @@ function RangePattern(from, to) {
         return from + "..." + to;
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.from = self.from();
+        obj.to = self.to();
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.from(obj.from);
+        self.to(obj.to);
     }
 }
 
 function ComplementPattern(selected, ruleset) {
     var self = this;
+    self.__proto__= new Pattern('complement');
 
-    self.type = 'complement';
-    self.named = ko.observable(false);
     self.selected = ko.observable(selected);
     self.variations = new VariationSet();
     self.ruleset = ko.observable(ruleset);
@@ -88,16 +139,35 @@ function ComplementPattern(selected, ruleset) {
         return ruleset_name + "~" + name + self.variations.getPattern();
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.variations = self.variations.toJS();
+
+        var view_model = GetViewModel();
+        obj.selected = view_model.getNamedPatternName(self.selected());
+        obj.ruleset = self.ruleset() ? view_model.getNamedPatternName(self.ruleset()) : "";
+
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.variations = new VariationSet();
+        self.variations.fromJS(obj.variations);
+
+        var view_model = GetViewModel();
+        var ruleset = obj.ruleset ? view_model.getPatternByName(obj.ruleset) : undefined;
+        var selected = obj.selected ? view_model.getPatternByName(obj.selected) : undefined;
+
+        self.ruleset(ruleset);
+        self.selected(selected);
     }
 }
 
 function RepeatPattern(selected) {
     var self = this;
+    self.__proto__ = new Pattern('repeat');
 
-    self.type = 'repeat';
-    self.named = ko.observable(false);
     self.selected = ko.observable(selected);
     self.variations = new VariationSet();
 
@@ -112,16 +182,32 @@ function RepeatPattern(selected) {
         return name + self.variations.getPattern();
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.variations = self.variations.toJS();
+
+        var view_model = GetViewModel();
+        obj.selected = view_model.getNamedPatternName(self.selected());
+
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.variations = new VariationSet();
+        self.variations.fromJS(obj.variations);
+
+        var view_model = GetViewModel();
+        var selected = obj.selected ? view_model.getPatternByName(obj.selected) : undefined;
+
+        self.selected(selected);
     }
 }
 
 function AlternativePattern(patterns) {
     var self = this;
+    self.__proto__ = new Pattern('alternative');
 
-    self.type = 'alternative';
-    self.named = ko.observable(false);
     patterns = patterns || [];
     self.sub_patterns = ko.observableArray(patterns);
     self.allow_named = false;
@@ -142,20 +228,43 @@ function AlternativePattern(patterns) {
 
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
-    }
-
     self.canDrop = ko.computed(function() {
         return self.sub_patterns().length < 2;
     }, self);
+
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.sub_patterns = self.sub_patterns().map(function(el) {
+            return el.toJS();
+        });
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        var sub_patterns = obj.sub_patterns.map(function(el) {
+            var view_model = GetViewModel();
+            var constructor = view_model.getConstructorByType(el.type);
+            if (!constructor) {
+                return;
+            }
+            var pattern = new constructor();
+            pattern.fromJS(el);
+            return pattern;
+        });
+
+        sub_patterns = sub_patterns.filter(function(val) {
+            return !(typeof val === 'undefined');
+        });
+
+        self.sub_patterns(sub_patterns);
+    }
 }
 
 function AnyOfPattern(sequence) {
     var self = this;
+    self.__proto__ = new Pattern('anyof');
 
-    self.type = 'anyof';
-    self.named = ko.observable(false);
     self.sequence = ko.observable(sequence);
 
     self.getPattern = ko.computed(function() {
@@ -166,16 +275,22 @@ function AnyOfPattern(sequence) {
         return "any(" + self.sequence() + ")";
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.sequence = self.sequence();
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.sequence(obj.sequence);
     }
 }
 
 function NotAnyOfPattern(sequence) {
     var self = this;
+    self.__proto__ = new Pattern('notanyof');
 
-    self.type = 'notanyof';
-    self.named = ko.observable(false);
     self.sequence = ko.observable(sequence);
 
     self.getPattern = ko.computed(function() {
@@ -186,19 +301,35 @@ function NotAnyOfPattern(sequence) {
         return "notany(" + self.sequence() + ")";
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.sequence = self.sequence();
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.sequence(obj.sequence);
     }
 }
 
 function LengthLimitPattern(selected, length) {
     var self = this;
+    self.__proto__ = new Pattern('length');
 
-    self.type = 'length';
-    self.named = ko.observable(false);
     selected = selected || [];
     self.selected = ko.observableArray(selected);
     self.length = ko.observable(length);
+
+    self.selectedNames = function() {
+        var view_model = GetViewModel();
+        var names = []
+        for (i in self.selected()) {
+            var el = self.selected()[i];
+            names.push(view_model.getNamedPatternName(el));
+        }
+        return names;
+    }
 
     self.getPattern = ko.computed(function() {
         var length = parseInt(self.length())
@@ -207,18 +338,30 @@ function LengthLimitPattern(selected, length) {
         }
 
         var view_model = GetViewModel();
-        var names = []
-        for (i in self.selected()) {
-            var el = self.selected()[i];
-            names.push(view_model.getNamedPatternName(el));
-        }
+        var names = self.selectedNames();
 
         return "length(" + names.join('+') + ") < " + length;
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.length = self.length();
+        obj.selected = self.selectedNames();
+        return obj;
     }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        self.length(obj.length);
+
+        var view_model = GetViewModel();
+        var selected = obj.selected.map(function(el) {
+            return view_model.getPatternByName(el);
+        });
+
+        self.selected(selected);
+    }
+
 }
 
 function WeightColumn(a, c, g, t) {
@@ -252,13 +395,22 @@ function WeightColumn(a, c, g, t) {
         return false;
     }, self);
 
+    self.toJS = function() {
+        return { a: self.a(), c: self.c(), g: self.g(), t: self.t() };
+    }
+
+    self.fromJS = function(obj) {
+        self.a(obj.a);
+        self.c(obj.c);
+        self.g(obj.g);
+        self.t(obj.t);
+    }
 }
 
 function WeightPattern(matrix, weight) {
     var self = this;
+    self.__proto__ = new Pattern('weight');
 
-    self.type = 'weight';
-    self.named = ko.observable(false);
     matrix = matrix || [];
     self.matrix = ko.observableArray(matrix);
     self.weight = ko.observable(weight);
@@ -281,10 +433,6 @@ function WeightPattern(matrix, weight) {
         return "{" + entries + "} > " + weight;
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
-    }
-
     self.addWeight = function() {
         self.matrix.push(new WeightColumn());
         GetViewModel().refreshButtons();
@@ -292,6 +440,29 @@ function WeightPattern(matrix, weight) {
 
     self.removeWeight = function(item) {
         self.matrix.remove(item);
+    }
+
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.matrix = self.matrix().map(function(el) {
+            return el.toJS();
+        });
+        obj.weight = self.weight();
+
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+
+        var matrix = obj.matrix.map(function(el) {
+            var col = new WeightColumn();
+            col.fromJS(el);
+            return col;
+        });
+        self.matrix(matrix);
+
+        self.weight(obj.weight);
     }
 }
 
@@ -311,12 +482,19 @@ function ComplementPair(sequence) {
         return !(self.sequence() && self.sequence().length == 2);
     }, self);
 
+    self.toJS = function() {
+        return { sequence: self.sequence() };
+    }
+
+   self.fromJS = function(obj) {
+      self.sequence(obj.sequence);
+   }
 }
 
 function ComplementRule(ruleset) {
     var self = this;
+    self.__proto__ = new Pattern('complement-rule');
 
-    self.type = 'complement-rule';
     self.named = ko.observable(true);
     ruleset = ruleset || [];
     self.ruleset = ko.observableArray(ruleset);
@@ -337,10 +515,6 @@ function ComplementRule(ruleset) {
         return "{" + entries + "}";
     }, self);
 
-    self.getTemplateType = function() {
-        return self.type;
-    }
-
     self.addComplementPair = function() {
         self.ruleset.push(new ComplementPair());
         GetViewModel().refreshButtons();
@@ -349,6 +523,24 @@ function ComplementRule(ruleset) {
     self.removeComplementPair = function(item) {
         self.ruleset.remove(item);
     }
+
+    self.toJS = function() {
+        var obj = self.__proto__.toJS();
+        obj.ruleset = self.ruleset().map(function(el) {
+            return el.toJS();
+        });
+        return obj;
+    }
+
+    self.fromJS = function(obj) {
+        self.__proto__.fromJS(obj);
+        var ruleset = obj.ruleset.map(function(el) {
+            var pair = new ComplementPair();
+            pair.fromJS(el);
+            return pair;
+        });
+        self.ruleset(ruleset);
+    }
 }
 
 function PatScanViewModel() {
@@ -356,16 +548,16 @@ function PatScanViewModel() {
 
 
     self.constructors = [
-        { constructor: StringPattern, text: "String Pattern", show_for: "all" },
-        { constructor: RangePattern, text: "Range Pattern", show_for: "all" },
-        { constructor: ComplementPattern, text: "Complement Pattern", show_for: "DNA" },
-        { constructor: RepeatPattern, text: "Repeat Pattern", show_for: "all" },
-        { constructor: AlternativePattern, text: "Alternative Pattern", show_for: "all" },
-        { constructor: AnyOfPattern, text: "Any-Of Pattern", show_for: "protein" },
-        { constructor: NotAnyOfPattern, text: "Not-Any-Of Pattern", show_for: "protein" },
-        { constructor: LengthLimitPattern, text: "Length Limit Pattern", show_for: "all" },
-        { constructor: WeightPattern, text: "Weight Pattern", show_for: "DNA" },
-        { constructor: ComplementRule, text: "Alternative Complementation Rule", show_for: "DNA" }
+        { constructor: StringPattern, type: 'string', text: "String Pattern", show_for: "all" },
+        { constructor: RangePattern, type: 'range', text: "Range Pattern", show_for: "all" },
+        { constructor: ComplementPattern, type: 'complement', text: "Complement Pattern", show_for: "DNA" },
+        { constructor: RepeatPattern, type: 'repeat', text: "Repeat Pattern", show_for: "all" },
+        { constructor: AlternativePattern, type: 'alternative', text: "Alternative Pattern", show_for: "all" },
+        { constructor: AnyOfPattern, type: 'anyof', text: "Any-Of Pattern", show_for: "protein" },
+        { constructor: NotAnyOfPattern, type: 'notanyof', text: "Not-Any-Of Pattern", show_for: "protein" },
+        { constructor: LengthLimitPattern, type: 'length', text: "Length Limit Pattern", show_for: "all" },
+        { constructor: WeightPattern, type: 'weight', text: "Weight Pattern", show_for: "DNA" },
+        { constructor: ComplementRule, type: 'complement-rule', text: "Alternative Complementation Rule", show_for: "DNA" }
     ];
 
     self.pattern_list = ko.observableArray([]);
@@ -431,6 +623,27 @@ function PatScanViewModel() {
         }
         idx = self.complementRules().indexOf(item) + 1;
         return "r" + idx;
+    }
+
+    self.getPatternByName = function(name) {
+        var idx = parseInt(name.substring(1)) - 1;
+        if (name.charAt(0) == "r") {
+            return self.complementRules()[idx];
+        }
+        return self.namedPatterns()[idx];
+    }
+
+    self.getConstructorByType = function(type) {
+        var constructor = undefined;
+        for (i in self.constructors) {
+            c = self.constructors[i];
+            if (c.type != type) {
+                continue;
+            }
+            constructor = c.constructor;
+            break;
+        }
+        return constructor;
     }
 
     self.refreshButtons = function(arg) {
@@ -550,6 +763,50 @@ function PatScanViewModel() {
         self.validity_check(!self.validity_check())
         return true;
     }).extend({ throttle: 5000 });
+
+    self.toJS = function() {
+        var elements = self.pattern_list().map(function(el) {
+            return el.toJS();
+        });
+        return { elements: elements,
+                 molecule_type: self.molecule() };
+    }
+
+    self.json = ko.observable();
+
+    self.save = function() {
+        var json = JSON.stringify(self.toJS(), null, 2);
+        self.json(json);
+    }
+
+    self.load = function() {
+        if (self.json() === undefined) {
+            return;
+        }
+
+        var obj = JSON.parse(self.json());
+        if (obj.molecule_type == "protein") {
+            self.molecule("protein");
+        } else {
+            self.molecule("DNA");
+        }
+
+        self.clearPatterns();
+
+        for (i in obj.elements) {
+            var el = obj.elements[i];
+            var constructor = self.getConstructorByType(el.type);
+            if (!constructor) {
+                console.log("Invalid element type " + el.type);
+                continue;
+            }
+
+            var pattern = new constructor();
+            pattern.fromJS(el);
+            self.pattern_list.push(pattern);
+        }
+        self.refreshButtons();
+    }
 }
 
 function SetViewModel(view_model) {
