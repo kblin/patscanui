@@ -54,8 +54,7 @@ function Pattern(type) {
 }
 
 function StringPattern(sequence, mutations, insertions, deletions) {
-    var self = this;
-    self.__proto__ = new Pattern('string');
+    var self = Object.create(new Pattern('string'));
 
     self.sequence = ko.observable(sequence);
     self.variations = new VariationSet(mutations, insertions, deletions);
@@ -84,11 +83,11 @@ function StringPattern(sequence, mutations, insertions, deletions) {
         self.variations = new VariationSet();
         self.variations.fromJS(obj.variations);
     }
+    return self;
 }
 
 function RangePattern(from, to) {
-    var self = this;
-    self.__proto__ = new Pattern('range');
+    var self = Object.create(new Pattern('range'));
 
     self.from = ko.observable(from);
     self.to = ko.observable(to);
@@ -117,11 +116,11 @@ function RangePattern(from, to) {
         self.from(obj.from);
         self.to(obj.to);
     }
+    return self;
 }
 
 function ComplementPattern(selected, ruleset) {
-    var self = this;
-    self.__proto__= new Pattern('complement');
+    var self = Object.create(new Pattern('complement'));
 
     self.selected = ko.observable(selected);
     self.variations = new VariationSet();
@@ -162,11 +161,11 @@ function ComplementPattern(selected, ruleset) {
         self.ruleset(ruleset);
         self.selected(selected);
     }
+    return self;
 }
 
 function RepeatPattern(selected) {
-    var self = this;
-    self.__proto__ = new Pattern('repeat');
+    var self = Object.create(new Pattern('repeat'));
 
     self.selected = ko.observable(selected);
     self.variations = new VariationSet();
@@ -202,11 +201,11 @@ function RepeatPattern(selected) {
 
         self.selected(selected);
     }
+    return self;
 }
 
 function AlternativePattern(patterns) {
-    var self = this;
-    self.__proto__ = new Pattern('alternative');
+    var self = Object.create(new Pattern('alternative'));
 
     patterns = patterns || [];
     self.sub_patterns = ko.observableArray(patterns);
@@ -259,11 +258,11 @@ function AlternativePattern(patterns) {
 
         self.sub_patterns(sub_patterns);
     }
+    return self;
 }
 
 function AnyOfPattern(sequence) {
-    var self = this;
-    self.__proto__ = new Pattern('anyof');
+    var self = Object.create(new Pattern('anyof'));
 
     self.sequence = ko.observable(sequence);
 
@@ -285,11 +284,11 @@ function AnyOfPattern(sequence) {
         self.__proto__.fromJS(obj);
         self.sequence(obj.sequence);
     }
+    return self;
 }
 
 function NotAnyOfPattern(sequence) {
-    var self = this;
-    self.__proto__ = new Pattern('notanyof');
+    var self = Object.create(new Pattern('notanyof'));
 
     self.sequence = ko.observable(sequence);
 
@@ -311,11 +310,11 @@ function NotAnyOfPattern(sequence) {
         self.__proto__.fromJS(obj);
         self.sequence(obj.sequence);
     }
+    return self;
 }
 
 function LengthLimitPattern(selected, length) {
-    var self = this;
-    self.__proto__ = new Pattern('length');
+    var self = Object.create(new Pattern('length'));
 
     selected = selected || [];
     self.selected = ko.observableArray(selected);
@@ -361,7 +360,7 @@ function LengthLimitPattern(selected, length) {
 
         self.selected(selected);
     }
-
+    return self;
 }
 
 function WeightColumn(a, c, g, t) {
@@ -405,11 +404,11 @@ function WeightColumn(a, c, g, t) {
         self.g(obj.g);
         self.t(obj.t);
     }
+    return self;
 }
 
 function WeightPattern(matrix, weight) {
-    var self = this;
-    self.__proto__ = new Pattern('weight');
+    var self = Object.create(new Pattern('weight'));
 
     matrix = matrix || [];
     self.matrix = ko.observableArray(matrix);
@@ -464,6 +463,7 @@ function WeightPattern(matrix, weight) {
 
         self.weight(obj.weight);
     }
+    return self;
 }
 
 function ComplementPair(sequence) {
@@ -492,8 +492,7 @@ function ComplementPair(sequence) {
 }
 
 function ComplementRule(ruleset) {
-    var self = this;
-    self.__proto__ = new Pattern('complement-rule');
+    var self = Object.create(new Pattern('complement-rule'));
 
     self.named = ko.observable(true);
     ruleset = ruleset || [];
@@ -541,6 +540,7 @@ function ComplementRule(ruleset) {
         });
         self.ruleset(ruleset);
     }
+    return self;
 }
 
 function PatScanViewModel() {
