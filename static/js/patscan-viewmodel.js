@@ -616,6 +616,26 @@ function PatScanViewModel() {
         return self._result();
     }, self);
 
+    self.result_cols = ko.computed(function() {
+        if (! self._result()) {
+            return 0;
+        }
+
+        var lines = self._result().split('\n');
+        var max_len = -1;
+        for (i in lines) {
+            max_len = lines[i].length > max_len ? lines[i].length : max_len;
+        }
+        return Math.max(80, max_len);
+    }, self);
+
+    self.result_rows = ko.computed(function() {
+        if (! self._result()) {
+            return 0;
+        }
+        return self._result().split('\n').length;
+    }, self);
+
     self.preview = ko.observable(false);
 
     self.getNamedPatternName = function(item) {
