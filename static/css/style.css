@@ -96,6 +96,11 @@ a:active { color: #810E15 }
     min-height: 5em;
 }
 
+.float-right {
+    display: block;
+    float: right;
+}
+
 #pattern-list{
     margin: -2em -1em;
     padding: 2em 0;

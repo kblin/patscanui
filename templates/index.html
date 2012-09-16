@@ -188,6 +188,7 @@
         <input type="text" data-bind="value: sequence">
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
         <button class="reverse-complement" data-bind="click: reverseComplement, visible: $root.molecule() == 'DNA'">Reverse Complement</button>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -197,6 +198,7 @@
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>From: <input type="text" size="5" data-bind="value: from" /></label>
         <label>To: <input type="text" size="5" data-bind="value: to" /></label>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -219,6 +221,7 @@
                              optionsCaption: 'default'">
           </select>
         </label>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -234,11 +237,13 @@
           </select>
         </label>
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
     <script id="alternative-template" type="text/html">
       <div class="pattern">
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <div class="sub-drop" data-bind="sortable: {template: $root.getTemplate, data: sub_patterns,
                                                     options: {distance: 5, forcePlaceholderSize: true},
                                                     afterMove: $root.refreshButtons, allowDrop: canDrop}">
@@ -251,6 +256,7 @@
         <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Any of: <input type="text" data-bind="value: sequence"></label>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -259,6 +265,7 @@
         <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Not any of: <input type="text" data-bind="value: sequence"></label>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -274,6 +281,7 @@
           </select>
         </label>
         <label>is less than:<input type="text" data-bind="value: length" size="3"></label>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
       </div>
     </script>
 
@@ -282,6 +290,7 @@
         <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <button class="toggle" data-bind="click: addWeight">Add Weight</button>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <ul class="weight-matrix">
           <li class="weight-label">
             <ul>
@@ -312,6 +321,7 @@
     <script id="complement-rule-template" type="text/html">
       <div class="pattern">
         <button class="toggle" data-bind="click: addComplementPair">Add Complement Pair</button>
+        <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <ul class="complement-ruleset">
           <li>Complement pairs: </li>
           <!-- ko foreach: ruleset -->
@@ -381,7 +391,6 @@
           at: "center bottom",
           offset: "0 10%"
         });
-
 
         $(".button").button();
         $("#demo-button").button({

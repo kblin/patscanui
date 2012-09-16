@@ -231,6 +231,10 @@ function AlternativePattern(patterns) {
         return self.sub_patterns().length < 2;
     }, self);
 
+    self.removePattern = function(pattern) {
+        self.sub_patterns.remove(pattern);
+    }
+
     self.toJS = function() {
         var obj = self.__proto__.toJS();
         obj.sub_patterns = self.sub_patterns().map(function(el) {
@@ -678,6 +682,10 @@ function PatScanViewModel() {
             icons: { primary: "ui-icon-transferthick-e-w" },
             text: false
         });
+    }
+
+    self.removePattern = function(pattern) {
+        self.pattern_list.remove(pattern);
     }
 
     self.clearPatterns = function() {
