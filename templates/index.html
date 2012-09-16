@@ -183,7 +183,7 @@
 {% block scripts %}
     <script id="string-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <input type="text" data-bind="value: sequence">
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
@@ -194,7 +194,7 @@
 
     <script id="range-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>From: <input type="text" size="5" data-bind="value: from" /></label>
         <label>To: <input type="text" size="5" data-bind="value: to" /></label>
@@ -204,7 +204,7 @@
 
     <script id="complement-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Complement of:
           <select data-bind="options: $root.namedPatterns,
@@ -227,7 +227,7 @@
 
     <script id="repeat-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Repeat of:
           <select data-bind="options: $root.namedPatterns,
@@ -253,7 +253,7 @@
 
     <script id="anyof-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Any of: <input type="text" data-bind="value: sequence"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
@@ -262,7 +262,7 @@
 
     <script id="notanyof-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Not any of: <input type="text" data-bind="value: sequence"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
@@ -271,7 +271,7 @@
 
     <script id="length-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Length of:
           <select data-bind="options: $root.namedPatterns,
@@ -287,7 +287,7 @@
 
     <script id="weight-template" type="text/html">
       <div class="pattern">
-        <label data-bind="visible: $parent.allow_named, uniqueFor: named">Named</label>
+        <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <button class="toggle" data-bind="click: addWeight">Add Weight</button>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>

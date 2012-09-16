@@ -41,6 +41,16 @@ function Pattern(type) {
         return self.type;
     }
 
+    self.updateName = function(data, event) {
+        /* Events propagate in the wrong order, so instead of setting the value right away,
+         * we set it after a short timeout */
+        setTimeout(function() {
+            var view_model = GetViewModel()
+            view_model.refreshButtons();
+        }, 1);
+        return true;
+    }
+
     self.toJS = function() {
         return { type: self.type,
                  named: self.named() };
@@ -681,6 +691,11 @@ function PatScanViewModel() {
         $('.reverse-complement').button({
             icons: { primary: "ui-icon-transferthick-e-w" },
             text: false
+        });
+        $(".pattern-label").each(function() {
+            var pattern = ko.dataFor(this);
+            var name = pattern.named() ? self.getNamedPatternName(pattern) : "unnamed";
+            $(this).children()[0].innerText = name;
         });
     }
 
