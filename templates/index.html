@@ -164,6 +164,10 @@
           </div>
         </div>
 
+        <div data-bind="visible: !showUploadMenu()">
+          <button id="submit-button2" class="float-right" data-bind="click: submit">Submit</button>
+        </div>
+
         <div id="result" data-bind="visible: result">
           <p>Results:<br>
           <textarea data-bind="value: result, attr: {cols: result_cols, rows: result_rows}"></textarea>
@@ -376,7 +380,7 @@
           of: $(".page").filter(":last"),
           my: "center top",
           at: "center bottom",
-          offset: "0 10%"
+          offset: "0 15%"
         });
 
         $(".button").button();
@@ -402,7 +406,11 @@
 
         $("#submit-button").button({
           icons: { primary: "ui-icon-play" }
-          });
+        });
+
+        $("#submit-button2").button({
+          icons: { primary: "ui-icon-play" }
+        });
 
         $("#molecule-type").buttonset();
 
