@@ -205,7 +205,10 @@ a:active { color: #810E15 }
 
 #footer {
     width: 50%;
+    padding-top: 0.5em;
     padding-bottom: 4.5em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .copyright {
