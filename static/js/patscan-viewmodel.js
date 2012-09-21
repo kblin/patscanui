@@ -574,7 +574,7 @@ function PatScanViewModel() {
         { constructor: ComplementRule, type: 'complement-rule', text: "Alternative Complementation Rule", show_for: "DNA" }
     ];
 
-    self.pattern_list = ko.observableArray([]);
+    self.pattern_list = ko.observableArray([new StringPattern()]);
 
     self.current_file = ko.observable('');
 
