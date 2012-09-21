@@ -575,7 +575,6 @@ function PatScanViewModel() {
     ];
 
     self.pattern_list = ko.observableArray([]);
-    self.trash = ko.observableArray([]);
 
     self.current_file = ko.observable('');
 

@@ -72,10 +72,8 @@ a:active { color: #810E15 }
 #pattern-selections {
     width: 20%;
     padding: 0 1em;
-    position: absolute;
     display: block;
-    right: 0;
-    bottom: 0;
+    float: right;
     border: solid 1px #222;
     -moz-border-radius: 8px;
     border-radius: 8px;

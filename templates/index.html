@@ -1,5 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
+      <div id="pattern-selections" data-bind="visible: !showUploadMenu()">
+        <h3>Select pattern elements:</h3>
+
+        <ul class="prototype-container" data-bind="foreach: constructors">
+          <li class="prototype" data-bind="drag: constructor, text: text,
+                                           visible: show_for == 'all' || show_for == $root.molecule(),
+                                           dragOptions: { stop: $root.refreshButtons },
+                                           click: function() { $root.pattern_list.push(new constructor()); $root.refreshButtons() }"></li>
+        </ul>
+
+      </div>
       <div id="contents">
 
         <div id="helpcontent">
@@ -160,23 +171,6 @@
 
       </div>
 
-      <div id="pattern-selections" data-bind="visible: !showUploadMenu()">
-
-        <ul class="prototype-container" data-bind="foreach: constructors">
-          <li class="prototype" data-bind="drag: constructor, text: text,
-                                           visible: show_for == 'all' || show_for == $root.molecule(),
-                                           dragOptions: { stop: $root.refreshButtons }"></li>
-        </ul>
-
-
-
-        <div id="trash-container">
-          <p>Trash</p>
-          <div id="trash" data-bind="sortable: trash">
-          </div>
-        </div>
-
-      </div>
 
     </div>
 {% endblock %}
@@ -377,13 +371,6 @@
           collapsible: true,
           clearStyle: true
         });
-
-        $("#pattern-selections").position({
-          of: $('#contents'),
-          my: "left top",
-          at: "right top",
-          offset: "40% 20px",
-          });
 
         $("#footer").position({
           of: $(".page").filter(":last"),
