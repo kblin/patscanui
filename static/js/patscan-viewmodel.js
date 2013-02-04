@@ -89,9 +89,11 @@ function StringPattern(sequence, mutations, insertions, deletions) {
 
     self.fromJS = function(obj) {
         self.__proto__.fromJS(obj);
-        self.sequence(obj.sequence);
+        /* In order to correctly calculate deps, set up variations before
+         * setting up the sequence */
         self.variations = new VariationSet();
         self.variations.fromJS(obj.variations);
+        self.sequence(obj.sequence);
     }
     return self;
 }
