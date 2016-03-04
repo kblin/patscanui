@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
 TIMEOUT=1
-FILESTORE=/memdisk/store
+FILESTORE=/store
 
-CMD="find $FILESTORE -type f -mmin +$TIMEOUT -delete -print"
-
-$CMD
+find $FILESTORE -type f -mmin +$TIMEOUT -delete -print
