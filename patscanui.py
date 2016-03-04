@@ -15,19 +15,38 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
 import uuid
 import subprocess
+import tempfile
+import shutil
 from os import path, listdir, utime
 from flask import Flask, render_template, request, jsonify
 from flask import send_from_directory
-from helperlibs.wrappers.io import TemporaryPipe
 
 app = Flask(__name__)
 app.secret_key = "secret"
-app.config['UPLOAD_FOLDER'] = '/memdisk/store'
+app.config['UPLOAD_FOLDER'] = '/store'
 app.config['PROVIDED_FOLDER'] = '/data/genomes/fasta'
 
 ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
+
+
+class TemporaryPipe(object):
+    def __init__(self, pipename="pipe"):
+        self.pipename = pipename
+        self.tempdir = None
+
+    def __enter__(self):
+        self.tempdir = tempfile.mkdtemp()
+        pipe_path = path.join(self.tempdir, self.pipename)
+        os.mkfifo(pipe_path)
+        return pipe_path
+
+    def __exit__(self, type, value, traceback):
+        if self.tempdir is not None:
+            shutil.rmtree(self.tempdir)
+
 
 @app.route('/')
 def index():
@@ -125,4 +144,4 @@ def favicon():
                                mimetype="image/vnd.microsoft.icon")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8000)
