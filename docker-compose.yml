@@ -2,6 +2,10 @@ ui:
     build: .
     volumes:
         - ./data:/data
-        - ./store:/store
     ports:
         - 8000:8000
+cleanup:
+    image: kblin/cleanup-files
+    volumes_from:
+        - ui:rw
+    command: ["--path", "/store", "--age", "30", "--interval", "300"]
