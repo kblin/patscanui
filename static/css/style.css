@@ -58,6 +58,10 @@ a:active { color: #810E15 }
     padding-top: 1em;
 }
 
+.ui-button.red-button {
+    background: #810e1555 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+}
+
 .menu {
     list-style-type: none;
     margin: 0;

@@ -149,7 +149,7 @@
               <button id="clear-button" data-bind="click: clearPatterns">Clear all Patterns</button>
             </li>
             <li>
-              <button id="submit-button" data-bind="click: submit">Submit</button>
+              <button id="submit-button" class="red-button" data-bind="click: submit">Submit</button>
             </li>
           </ul>
         </div>
@@ -169,7 +169,7 @@
         </div>
 
         <div data-bind="visible: !showUploadMenu()">
-          <button id="submit-button2" class="float-right" data-bind="click: submit">Submit</button>
+          <button id="submit-button2" class="float-right red-button" data-bind="click: submit">Submit</button>
         </div>
 
         <div id="result" data-bind="visible: result">
