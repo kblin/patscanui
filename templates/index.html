@@ -106,7 +106,7 @@
           <div>
             <ul class="menu">
               <li>
-                <button id="demo-button" data-bind="click: demo, visible: !showUploadMenu()">Show Example</button>
+                <button id="demo-button" data-bind="click: demo, visible: !showUploadMenu()">Show Complex Example</button>
               </li>
               <li>
                 <button id="save-button" data-bind="click: save, visible: !showUploadMenu()">Save Pattern</button>
@@ -129,6 +129,10 @@
           <select data-bind="options: allProvidedFiles,
                              value: provided,
                              optionsCaption: 'Choose...'"></select>
+          <div>
+            <p>or load the</p>
+            <button id="example-input-button" data-bind="click: example">Example input</button>
+          </div>
         </div>
 
         <div id="settings" data-bind="visible: !showUploadMenu()">
@@ -378,6 +382,10 @@
 
         $(".button").button();
         $("#demo-button").button({
+          icons: { primary: "ui-icon-lightbulb" }
+        });
+
+        $("#example-input-button").button({
           icons: { primary: "ui-icon-lightbulb" }
         });
 

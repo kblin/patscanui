@@ -589,6 +589,17 @@ function PatScanViewModel() {
         return element.getTemplateType() + "-template";
     }
 
+    self.example = function() {
+        self.provided(self.allProvidedFiles()[0]);
+        self.clearPatterns()
+        self.pattern_list.push(new StringPattern("C"));
+        self.pattern_list.push(new RangePattern(5, 6));
+        self.pattern_list()[1].named(true)
+        self.pattern_list.push(new StringPattern("GAGAG"));
+        self.pattern_list.push(new ComplementPattern(self.pattern_list()[1]));
+        self.refreshButtons();
+    }
+
     self.namedPatterns = ko.computed(function() {
         var plist = self.pattern_list().filter(function(el) {
             if (el.type == "complement-rule")
