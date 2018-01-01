@@ -26,8 +26,9 @@ from flask import send_from_directory
 
 app = Flask(__name__)
 app.secret_key = "secret"
-app.config['UPLOAD_FOLDER'] = '/store'
-app.config['PROVIDED_FOLDER'] = '/data/genomes/fasta'
+app.config['UPLOAD_FOLDER'] = os.environ.get('PATSCAN_UPLOAD_FOLDER', '/store')
+app.config['PROVIDED_FOLDER'] = os.environ.get('PATSCAN_PROVIDED_FOLDER',
+                                               '/data/genomes/fasta')
 
 ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 
