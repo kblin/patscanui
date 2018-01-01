@@ -58,13 +58,13 @@ def _is_available(filename, provided=False):
         udir = app.config['PROVIDED_FOLDER']
     else:
         udir = app.config['UPLOAD_FOLDER']
-    filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
+    filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir, fn))]
     return filename in filelist
 
 @app.route('/available')
 def available():
     udir = app.config['PROVIDED_FOLDER']
-    filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir,fn))]
+    filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir, fn))]
     filelist.sort()
     return jsonify(available_files=filelist)
 
