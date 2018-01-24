@@ -53,6 +53,7 @@ class TemporaryPipe(object):
 def index():
     return render_template('index.html')
 
+
 def _is_available(filename, provided=False):
     if provided:
         udir = app.config['PROVIDED_FOLDER']
@@ -61,6 +62,7 @@ def _is_available(filename, provided=False):
     filelist = [fn for fn in listdir(udir) if path.isfile(path.join(udir, fn))]
     return filename in filelist
 
+
 @app.route('/available')
 def available():
     udir = app.config['PROVIDED_FOLDER']
@@ -68,13 +70,16 @@ def available():
     filelist.sort()
     return jsonify(available_files=filelist)
 
+
 @app.route('/check/<filename>')
 def check(filename):
     available = _is_available(filename)
     return jsonify(available=available)
 
+
 def allowed_filename(name):
     return '.' in name and name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -144,5 +149,7 @@ def favicon():
                                'favicon.ico',
                                mimetype="image/vnd.microsoft.icon")
 
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
+
