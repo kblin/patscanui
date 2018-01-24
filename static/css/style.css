@@ -81,6 +81,9 @@ a:active { color: #810E15 }
     border: solid 1px #222;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    position: fixed;
+    z-index: 10;
+    right: 10px;
 }
 
 #drop-area , #trash-container {
