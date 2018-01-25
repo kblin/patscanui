@@ -748,7 +748,7 @@ function PatScanViewModel() {
         self.refreshButtons();
     }
 
-    self.upload_message = ko.observable("Before you start, please uplaod the DNA FASTA file you want to search");
+    self.upload_message = ko.observable("Before you start, please upload the DNA FASTA file you want to search");
 
     self.showUploadMenu = ko.computed(function() {
         if (self.provided()) {
