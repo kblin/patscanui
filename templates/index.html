@@ -149,6 +149,9 @@
               <button id="clear-button" data-bind="click: clearPatterns">Clear all Patterns</button>
             </li>
             <li>
+              <button id="new-seq-button" data-bind="click: new_seq">New sequence</button>
+            </li>
+            <li>
               <button id="submit-button" class="red-button" data-bind="click: submit">Submit</button>
             </li>
           </ul>
@@ -403,6 +406,10 @@
 
         $("#preview").button({
           icons: { primary: "ui-icon-refresh" }
+        });
+
+        $("#new-seq-button").button({
+          icons: { primary: "ui-icon-arrowrefresh-1-w" }
         });
 
         $("#submit-button").button({

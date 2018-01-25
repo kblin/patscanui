@@ -719,6 +719,12 @@ function PatScanViewModel() {
         self.pattern_list.removeAll();
     }
 
+    self.new_seq = function() {
+        self.provided(null);
+        self.current_file('');
+        self._result(null);
+    }
+
     self.demo = function() {
         self.clearPatterns();
         self.pattern_list.push(new ComplementRule([ new ComplementPair("au"), new ComplementPair("ua"),
