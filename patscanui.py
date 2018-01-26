@@ -91,6 +91,16 @@ def upload():
     return jsonify(result="error", message="invalid filename")
 
 
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
 def _update_timestamp(filename):
     udir = app.config['UPLOAD_FOLDER']
     utime(path.join(udir, filename), None)

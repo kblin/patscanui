@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}
+<div id="contents">
+  About PatScanUI.
+</div>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+$(document).ready(function() {
+  setActiveNav(window.location.pathname.slice(1));
+});
+</script>
+{% endblock %}

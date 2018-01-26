@@ -19,7 +19,44 @@ a:active { color: #810E15 }
     width: 90%;
 }
 
-#mainlogo {
+.nav {
+    margin: auto;
+    width: 40%;
+    clear: both;
+}
+
+.nav ul {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    background-color: #ddd;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.nav li {
+    font-size: 1.2em;
+    line-height: 1.4em;
+    height: 1.4em;
+    width: 10em;
+    display: inline-block;
+}
+
+.nav a {
+    display: block;
+    text-decoration: none;
+    transition: .3s background-color;
+}
+
+.nav a:hover {
+    background-color: #f67380;
+}
+
+.nav a.active {
+    background-color: #eee;
+    color: #810e15;
+    cursor: default;
 }
 
 .page {

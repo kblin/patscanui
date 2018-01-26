@@ -14,94 +14,6 @@
       <div id="contents">
 
         <div id="helpcontent">
-          <h3><a href="#">Basic Usage</a></h3>
-          <div>
-            <p>
-            As a first step, you need to upload a sequence file in FASTA format.
-            This is the sequence you can search using PatScan. The file will be
-            kept on the server as long as you work on it and deleted an hour
-            after you finished using the software.
-            </p>
-            <p>
-            Once your file is uploaded, you can specify a pattern by dragging
-            pattern elements from the menu bar on the right side of the screen
-            to the work area. Once the pattern element is on the work area, you
-            can fill in details, and reorder the elements by dragging them
-            around.
-            </p>
-            <p>
-            Above the pattern area, there is a configuration menu containing a
-            couple of buttons to adjust the software.
-            </p>
-
-            <p>
-            The <b>DNA/Protein</b> selector allows you to tell PatScan what
-            kind of sequence file you uploaded.  This affects the selection of
-            available pattern elements.
-            </p>
-
-            <p>
-            While working on the pattern, you can switch on the <b>continuous
-            preview</b>, that will regularly search your uploaded sequence
-            for the currently selected pattern. This will allow you to tweak
-            the pattern until you get the desired result.
-            </br>
-
-            <p>
-            If you want to get rid of the current pattern elements, you can
-            clear all of them using the <b>clear</b> button. Alternatively, you
-            may drag single elements onto the trash on the right hand menu.
-            </p>
-
-            <p>
-            If you want to get an example of many of the possible pattern elements,
-            you can load an <b>example</b>.
-            </p>
-
-            <p>
-            Below the work area, you can expand the <b>computed pattern</b>
-            view, in case you need to tweak the generated pattern manually
-            </p>
-          </div>
-          <h3><a href="#">Nucleotide Ambiguity Codes</a></h3>
-          <div>
-            <p>
-            <table id="ambiguity-table">
-              <thead>
-                <tr>
-                  <td class="legend">Code</td>
-                  <td>M</td>
-                  <td>R</td>
-                  <td>W</td>
-                  <td>S</td>
-                  <td>Y</td>
-                  <td>K</td>
-                  <td>V</td>
-                  <td>H</td>
-                  <td>D</td>
-                  <td>B</td>
-                  <td>N</td>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="legend">Nucleotides</td>
-                  <td>AC</td>
-                  <td>AG</td>
-                  <td>AT</td>
-                  <td>CG</td>
-                  <td>CT</td>
-                  <td>GT</td>
-                  <td>ACG</td>
-                  <td>ACT</td>
-                  <td>AGT</td>
-                  <td>CGT</td>
-                  <td>ACGT</td>
-                </tr>
-              </tbody>
-            </table>
-            </p>
-          </div>
           <h3><a href="#">Advanced Features</a></h3>
           <div>
             <ul class="menu">
@@ -348,7 +260,6 @@
       <label data-bind="visible: show">Deletions: <input type="text" size="3" data-bind="value: deletions" /></label>
     </script>
 
-    <script src="{{ url_for('static', filename="js/jquery-1.8.0.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/jquery.ajaxfileupload.js") }}"></script>
@@ -363,6 +274,7 @@
     <script type="text/javascript">
 
       $(document).ready(function() {
+        setActiveNav('home');
         var view_model = new PatScanViewModel();
         ko.applyBindings(view_model);
         SetViewModel(view_model);
