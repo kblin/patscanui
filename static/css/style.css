@@ -251,17 +251,24 @@ a:active { color: #810E15 }
     width: 50%;
     padding-top: 0.5em;
     padding-bottom: 4.5em;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
 }
 
 .copyright {
     font-size: 60%;
     margin-top: 2em;
     margin-left: 2em;
+    margin-left: auto;
+    margin-right: auto;
     width: 65%;
     background-color: #ddd;
     padding: 0.5em;
     -moz-border-radius: 8px;
     border-radius: 8px;
+}
+
+.cite-us {
+    display: block;
+    float: right;
+    padding-right: 2em;
 }
