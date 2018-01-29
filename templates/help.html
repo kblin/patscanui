@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
 <div id="contents">
-  <h3 id="usage">Basic Usage</h3>
+  <h2 id="usage">Basic Usage</h2>
   <div>
     <p>
     As a first step, you need to upload a sequence file in FASTA format.
@@ -50,7 +50,65 @@
     view, in case you need to tweak the generated pattern manually
     </p>
   </div>
-  <h3 id="codes">Nucleotide Ambiguity Codes</h3>
+
+  <h2 id="patterns">Available Patterns</h2>
+  <p>
+    PatScan supports many different pattern types, here we will explain how they work.
+  </p>
+
+  <div id="accordion">
+    <h3 id="string"><a href="#">String Pattern</a></h3>
+    <div>
+      <p>This is how string patterns work</p>
+    </div>
+
+    <h3 id="range"><a href="#">Range Pattern</a></h3>
+    <div>
+      <p>Explanation of range patterns</p>
+    </div>
+
+    <h3 id="complement"><a href="a">Complement Pattern</a></h3>
+    <div>
+      <p>Explanation of the complement pattern</p>
+    </div>
+
+    <h3 id="repeat"><a href="a">Repeat Pattern</a></h3>
+    <div>
+      <p>Explanation of the repeat pattern</p>
+    </div>
+
+    <h3 id="alternative"><a href="a">Alternative Pattern</a></h3>
+    <div>
+      <p>Explanation of the alternative pattern</p>
+    </div>
+
+    <h3 id="lengthlimit"><a href="a">Length limit Pattern</a></h3>
+    <div>
+      <p>Explanation of the length limit pattern</p>
+    </div>
+
+    <h3 id="weight"><a href="a">Weight Pattern</a></h3>
+    <div>
+      <p>Explanation of the weight pattern</p>
+    </div>
+
+    <h3 id="anyof"><a href="a">Any-Of Pattern</a></h3>
+    <div>
+      <p>Explanation of the any-of pattern</p>
+    </div>
+
+    <h3 id="notanyof"><a href="a">Not-Any-Of Pattern</a></h3>
+    <div>
+      <p>Explanation of the not-any-of pattern</p>
+    </div>
+
+    <h3 id="altcomplementrule"><a href="a">Alternative Complementation Rule</a></h3>
+    <div>
+      <p>Explanation of the alternative complementation rule</p>
+    </div>
+  </div>
+
+  <h2 id="codes">Nucleotide Ambiguity Codes</h2>
   <div>
     <p>
     <table id="ambiguity-table">
@@ -92,9 +150,34 @@
 </div>
 {% endblock %}
 {% block scripts %}
+<script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
+<script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
 <script type="text/javascript">
+
+function findTopicIdx(topic) {
+  var topics = $('#accordion').children('h3');
+  console.log('topic is ' + topic);
+  for (var i=0; i < topics.length; i++) {
+    console.log('current is ', topics[i].id);
+    if (topics[i].id == topic) {
+      return i;
+    };
+  }
+  return -1;
+}
+
+function setActiveTopic(topic) {
+  var idx = findTopicIdx(topic);
+  if (idx < 0) return;
+  $('#accordion').accordion('option', 'active', idx);
+}
+
 $(document).ready(function() {
+  $('#accordion').accordion({
+    active: false
+  });
   setActiveNav(window.location.pathname.slice(1));
+  setActiveTopic(window.location.hash.slice(1));
 });
 </script>
 {% endblock %}

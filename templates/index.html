@@ -106,6 +106,7 @@
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
         <button class="reverse-complement" data-bind="click: reverseComplement, visible: $root.molecule() == 'DNA'">Reverse Complement</button>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('string')}">Help</button>
       </div>
     </script>
 
@@ -116,6 +117,7 @@
         <label>From: <input type="text" size="5" data-bind="value: from" /></label>
         <label>To: <input type="text" size="5" data-bind="value: to" /></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('range')}">Help</button>
       </div>
     </script>
 
@@ -139,6 +141,7 @@
           </select>
         </label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('complement')}">Help</button>
       </div>
     </script>
 
@@ -155,12 +158,14 @@
         </label>
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('repeat')}">Help</button>
       </div>
     </script>
 
     <script id="alternative-template" type="text/html">
       <div class="pattern">
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('alternative')}">Help</button>
         <div class="sub-drop" data-bind="sortable: {template: $root.getTemplate, data: sub_patterns,
                                                     options: {distance: 5, forcePlaceholderSize: true},
                                                     afterMove: $root.refreshButtons, allowDrop: canDrop}">
@@ -174,6 +179,7 @@
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Any of: <input type="text" data-bind="value: sequence"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('anyof')}">Help</button>
       </div>
     </script>
 
@@ -183,6 +189,7 @@
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Not any of: <input type="text" data-bind="value: sequence"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('notanyof')}">Help</button>
       </div>
     </script>
 
@@ -199,6 +206,7 @@
         </label>
         <label>is less than:<input type="text" data-bind="value: length" size="3"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('length')}">Help</button>
       </div>
     </script>
 
@@ -208,6 +216,7 @@
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <button class="toggle" data-bind="click: addWeight">Add Weight</button>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('weight')}">Help</button>
         <ul class="weight-matrix">
           <li class="weight-label">
             <ul>
@@ -239,6 +248,7 @@
       <div class="pattern">
         <button class="toggle" data-bind="click: addComplementPair">Add Complement Pair</button>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
+        <button class="help-button float-right" data-bind="click: function() {openHelp('altcomplementrule')}">Help</button>
         <ul class="complement-ruleset">
           <li>Complement pairs: </li>
           <!-- ko foreach: ruleset -->

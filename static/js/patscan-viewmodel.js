@@ -704,6 +704,10 @@ function PatScanViewModel() {
             icons: { primary: "ui-icon-transferthick-e-w" },
             text: false
         });
+        $(".help-button").button({
+            icons: { primary: "ui-icon-help"},
+            text: false
+        });
         $(".pattern-label").each(function() {
             var pattern = ko.dataFor(this);
             var name = pattern.named() ? self.getNamedPatternName(pattern) : "unnamed";

@@ -18,9 +18,9 @@
 
   <div class="nav">
     <ul>
-      <li class="home"><a href="/">Home</a></li>
-      <li class="help"><a href="/help">Help</a></li>
-      <li class="about"><a href="/about">About</a></li>
+      <li class="home"><a href="{{ url_for('index') }}">Home</a></li>
+      <li class="help"><a href="{{ url_for('help') }}">Help</a></li>
+      <li class="about"><a href="{{ url_for('about') }}">About</a></li>
     </ul>
   </div>
 
@@ -41,6 +41,11 @@
 function setActiveNav(path) {
   $('.active').removeClass('active');
   $('.'+path).children('a').addClass('active');
+};
+
+function openHelp(topic) {
+  var win = window.open("{{ url_for('help') }}#" + topic, '_blank');
+  win.focus();
 };
 
 </script>
