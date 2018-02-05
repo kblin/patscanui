@@ -9,6 +9,8 @@ body {
 
 a:link {color: #1D1414}
 #menu a:link { color: #810E15 }
+a.reference { color: #810e15 }
+a.reference:visited { color: #810e15 }
 a:visited { color: #1D1414 }
 a {text-decoration: none }
 a:hover {text-decoration: underline}

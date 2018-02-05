@@ -54,99 +54,166 @@
   <h2 id="patterns">Available Patterns</h2>
   <p>
     PatScan supports many different pattern types, here we will explain how they work.
+    All 
   </p>
 
   <div id="accordion">
     <h3 id="string"><a href="#">String Pattern</a></h3>
     <div>
-      <p>This is how string patterns work</p>
+      <p>
+        String patterns allow you to specify a DNA/RNA/protein sequence to search for.
+        This is the most basic pattern to use. For DNA sequences, in addition to
+        the regular <code>ACGT</code> nucleotide letters, you can also use the
+        <a class="reference" href="#codes">IUPAC ambiguity codes</a>.
+        String patterns can be matched while allowing <a class="reference" href="#variations">variations</a>.
+      </p>
     </div>
 
     <h3 id="range"><a href="#">Range Pattern</a></h3>
     <div>
-      <p>Explanation of range patterns</p>
+      <p>
+      Range patterns are a shorthand for using a <a class="reference"
+        href="#string">string pattern</a> consisting of a run of <code>N</code>
+      ambiguous bases.  So instead of e.g. specifying a string pattern of
+      <code>NNNNN</code> and allowing for 5 <a class="reference"
+        href="#variations">insertions</a>, you can use a range pattern from
+      <strong>5</strong> to <strong>10</strong>.
+      </p>
     </div>
 
-    <h3 id="complement"><a href="a">Complement Pattern</a></h3>
+    <h3 id="complement"><a href="#">Complement Pattern</a></h3>
     <div>
-      <p>Explanation of the complement pattern</p>
+      <p>
+      Complement patterns match the reverse complement of a
+      <a class="reference" href="#named">named</a> pattern. Thus, they only
+      apply for DNA and RNA sequences. It is possible to specify
+      <a class="reference" href="#altcomplementrule">alternative complementation rules</a>
+      to specify which bases can be complements. Complements can also have some
+      <a class="referece" href="#variations">variations</a>.
+      </p>
     </div>
 
-    <h3 id="repeat"><a href="a">Repeat Pattern</a></h3>
+    <h3 id="repeat"><a href="#">Repeat Pattern</a></h3>
     <div>
-      <p>Explanation of the repeat pattern</p>
+      <p>
+      Repeat patters repeat a previously specified
+      <a class="reference" href="#named">named</a> pattern. It can have
+      <a class="reference" href="#variations">variations</a> compared to the
+      original pattern.
+      </p>
     </div>
 
-    <h3 id="alternative"><a href="a">Alternative Pattern</a></h3>
+    <h3 id="alternative"><a href="#">Alternative Pattern</a></h3>
     <div>
-      <p>Explanation of the alternative pattern</p>
+      <p>
+      An alternative pattern contains any two other patterns and requires that one
+      or the other (or potentially both) get a match.
+      </p>
     </div>
 
-    <h3 id="lengthlimit"><a href="a">Length limit Pattern</a></h3>
+    <h3 id="lengthlimit"><a href="#">Length limit Pattern</a></h3>
     <div>
-      <p>Explanation of the length limit pattern</p>
+      <p>
+      The length limit pattern allows to specify that the length of
+      any <a class="reference" href="#named">named</a> pattern(s) is/are less
+      than a specified number of bases or amino acids. Use shift-click to select
+      multiple named patterns from the list.
+      </p>
     </div>
 
-    <h3 id="weight"><a href="a">Weight Pattern</a></h3>
+    <h3 id="weight"><a href="#">Weight Pattern</a></h3>
     <div>
-      <p>Explanation of the weight pattern</p>
+      <p>
+      The weight pattern allows users to specify a position specific probability/weight matrix
+      for DNA sequences. For every position in the matrix, the probabilities of the individual bases (in %)
+      should add up to 100. The final weight of the pattern is calculated from the percent values of the matching bases.
+      </p>
     </div>
 
-    <h3 id="anyof"><a href="a">Any-Of Pattern</a></h3>
+    <h3 id="anyof"><a href="#">Any-Of Pattern</a></h3>
     <div>
-      <p>Explanation of the any-of pattern</p>
+      <p>
+      The Any-Of pattern allows matching a list of amino acids for a given position.
+      </p>
     </div>
 
-    <h3 id="notanyof"><a href="a">Not-Any-Of Pattern</a></h3>
+    <h3 id="notanyof"><a href="#">Not-Any-Of Pattern</a></h3>
     <div>
-      <p>Explanation of the not-any-of pattern</p>
+      <p>
+      The Not-Any-Of pattern is the inverse of the <a class="reference" href="#anyof">Any-Of pattern</a>
+      and allows specifying a list of amino acids that can not occur at a given position.
+      </p>
     </div>
 
-    <h3 id="altcomplementrule"><a href="a">Alternative Complementation Rule</a></h3>
+    <h3 id="altcomplementrule"><a href="#">Alternative Complementation Rule</a></h3>
     <div>
-      <p>Explanation of the alternative complementation rule</p>
+      <p>
+      Alternative complementation rules allow creating base pairings that are not covered by the
+      conventional <code>AT</code>, <code>TA</code>, <code>CG</code>, or <code>GC</code> pairings.
+      If you want to allow for e.g. <code>GU</code> and <code>UG</code> pairings in RNA, you can create
+      an alternative complementation rule for all of these pairings.
+      </p>
+    </div>
+
+    <h3 id="variations"><a href="#">Variations</a></h3>
+    <div>
+      <p>
+        When patterns allow for variations, you can specify the number of mutations (mismatches),
+        insertions or deletions you want to allow.
+      </p>
+    </div>
+
+    <h3 id="named"><a href="#">Names</a></h3>
+    <div>
+      <p>
+      Patterns can be assigend names by clicking the <em>unnamed</em> button.
+      Named patterns can be used in <a class="reference" href="#complement">complement patterns</a> and
+      <a class="reference" href="#repeat">repeat patterns</a>.
+      </p>
+    </div>
+
+
+    <h3 id="codes"><a href="#">Nucleotide Ambiguity Codes</a></h3>
+    <div>
+      <p>
+      <table id="ambiguity-table">
+        <thead>
+          <tr>
+            <td class="legend">Code</td>
+            <td>M</td>
+            <td>R</td>
+            <td>W</td>
+            <td>S</td>
+            <td>Y</td>
+            <td>K</td>
+            <td>V</td>
+            <td>H</td>
+            <td>D</td>
+            <td>B</td>
+            <td>N</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="legend">Nucleotides</td>
+            <td>AC</td>
+            <td>AG</td>
+            <td>AT</td>
+            <td>CG</td>
+            <td>CT</td>
+            <td>GT</td>
+            <td>ACG</td>
+            <td>ACT</td>
+            <td>AGT</td>
+            <td>CGT</td>
+            <td>ACGT</td>
+          </tr>
+        </tbody>
+      </table>
+      </p>
     </div>
   </div>
 
-  <h2 id="codes">Nucleotide Ambiguity Codes</h2>
-  <div>
-    <p>
-    <table id="ambiguity-table">
-      <thead>
-        <tr>
-          <td class="legend">Code</td>
-          <td>M</td>
-          <td>R</td>
-          <td>W</td>
-          <td>S</td>
-          <td>Y</td>
-          <td>K</td>
-          <td>V</td>
-          <td>H</td>
-          <td>D</td>
-          <td>B</td>
-          <td>N</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="legend">Nucleotides</td>
-          <td>AC</td>
-          <td>AG</td>
-          <td>AT</td>
-          <td>CG</td>
-          <td>CT</td>
-          <td>GT</td>
-          <td>ACG</td>
-          <td>ACT</td>
-          <td>AGT</td>
-          <td>CGT</td>
-          <td>ACGT</td>
-        </tr>
-      </tbody>
-    </table>
-    </p>
-  </div>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -156,9 +223,7 @@
 
 function findTopicIdx(topic) {
   var topics = $('#accordion').children('h3');
-  console.log('topic is ' + topic);
   for (var i=0; i < topics.length; i++) {
-    console.log('current is ', topics[i].id);
     if (topics[i].id == topic) {
       return i;
     };
@@ -172,11 +237,15 @@ function setActiveTopic(topic) {
   $('#accordion').accordion('option', 'active', idx);
 }
 
+function hashChangeCallback() {
+  setActiveTopic(window.location.hash.slice(1));
+}
+
 $(document).ready(function() {
   $('#accordion').accordion({
     active: false
   });
-  setActiveNav(window.location.pathname.slice(1));
+  window.addEventListener("hashchange", hashChangeCallback, false);
   setActiveTopic(window.location.hash.slice(1));
 });
 </script>
