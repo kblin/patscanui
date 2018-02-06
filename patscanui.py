@@ -123,9 +123,7 @@ def _run_patscan(filename, provided, pattern, molecule_type, both):
                 p1 = subprocess.Popen(command_line, stdin=handle, stdout=subprocess.PIPE)
                 with open(pipe, 'w') as w:
                     w.write(pattern)
-                p2 = subprocess.Popen(['patscan_show_hits'], stdin=p1.stdout, stdout=subprocess.PIPE)
-                p1.stdout.close()
-                result, error = p2.communicate()
+                result, error = p1.communicate()
     except IOError as e:
         result = "Running patscan failed: %r" % e
     except OSError as e:
