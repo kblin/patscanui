@@ -106,7 +106,7 @@ def _update_timestamp(filename):
     utime(path.join(udir, filename), None)
 
 
-def _run_patscan(filename, provided, pattern, molecule_type):
+def _run_patscan(filename, provided, pattern, molecule_type, both):
     try:
         if provided:
             full_path = path.join(app.config['PROVIDED_FOLDER'], filename)
@@ -114,7 +114,9 @@ def _run_patscan(filename, provided, pattern, molecule_type):
             full_path = path.join(app.config['UPLOAD_FOLDER'], filename)
         with open(full_path, 'r') as handle:
             with TemporaryPipe() as pipe:
-                command_line = ['patscan', '-c']
+                command_line = ['patscan']
+                if both:
+                    command_line.append('-c')
                 if molecule_type.lower() == "protein":
                     command_line.append('-p')
                 command_line.append(pipe)
@@ -138,6 +140,7 @@ def analyze():
     filename = request.form.get('filename', None)
     molecule_type = request.form.get('molecule', 'DNA')
     provided = True if request.form.get('provided', "false") == "true" else False
+    both = True if request.form.get('both', "false") == "true" else False
 
     if filename is None or not _is_available(filename, provided):
         return "session expired"
@@ -148,7 +151,7 @@ def analyze():
     if not provided:
         _update_timestamp(filename)
 
-    result = _run_patscan(filename, provided, pattern, molecule_type)
+    result = _run_patscan(filename, provided, pattern, molecule_type, both)
 
     return result
 

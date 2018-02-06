@@ -584,6 +584,7 @@ function PatScanViewModel() {
     self.allow_named = true;
 
     self.provided = ko.observable(false);
+    self.both = ko.observable("false");
 
     self.getTemplate = function(element) {
         return element.getTemplateType() + "-template";
@@ -799,7 +800,8 @@ function PatScanViewModel() {
         var data = { pattern: self.pattern(),
                      filename: self.current_file(),
                      provided: self.provided() ? "true" : "false",
-                     molecule: self.molecule()
+                     molecule: self.molecule(),
+                     both: self.both()
                    };
         $.post('analyze', data, function(data) {
             self.processing(false);

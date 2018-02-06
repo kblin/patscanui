@@ -53,6 +53,10 @@
               <input type="radio" name="molecule" id="DNA" value="DNA" data-bind="checked: molecule" /><label for="DNA">DNA</label>
               <input type="radio" name="molecule" id="protein" value="protein" data-bind="checked: molecule" /><label for="protein">Protein</label>
             </li>
+            <li id="strand-use" data-bind="visible: $root.molecule() == 'DNA'">
+              <input type="radio" name="strand" id="forward" value="false" data-bind="checked: both" /><label for="forward">Forward</label>
+              <input type="radio" name="strand" id="both" value="true" data-bind="checked: both" /><label for="both">Both</label>
+            </li>
             <li>
               <input type="checkbox" id="preview" data-bind="checked: preview" />
               <label for="preview">Continuous Preview</label></p>
@@ -343,6 +347,8 @@
         });
 
         $("#molecule-type").buttonset();
+
+        $("#strand-use").buttonset();
 
         $(".toggle").button();
         $(".remove").button({
