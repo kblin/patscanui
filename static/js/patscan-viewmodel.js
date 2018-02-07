@@ -559,6 +559,93 @@ function ComplementRule(ruleset) {
     return self;
 }
 
+function PatScanMatch(id_line, seqline) {
+    var self = this;
+
+    self.out_len = function() {
+        var output = self.id + self.start + self.end;
+        return output.length;
+    }
+
+    var groups = id_line.match(/^>([^:]+):\[(\d+),(\d+)\]/);
+    if (!groups) {
+        throw "Failed to parse: " + id_line;
+    }
+    self.id = groups[1];
+    self.start = parseInt(groups[2]);
+    self.end = parseInt(groups[3]);
+    self.strand = self.start > self.end ? -1 : 1;
+    self.seq = $.trim(seqline);
+
+    return self;
+}
+
+function PatScanMatches() {
+    var self = this;
+
+    self.matches = [];
+
+    self.max_len = 0;
+
+    self.add = function(match) {
+        self.matches.push(match);
+        self.max_len = Math.max(self.max_len, match.out_len());
+    };
+
+    function toFasta(match) {
+        return ">" + match.id + ":[" + match.start + "," + match.end + "]\n" + match.seq;
+    };
+
+    function toPatScan(match) {
+        var line = match.id + ":[" + match.start + "," + match.end + "]";
+        var padstring = '';
+        var pad_len = self.max_len + 4 - line.length;
+        if (pad_len > 0) {
+            padstring += ' '.repeat(pad_len);
+        }
+        return line + padstring + ": " + match.seq;
+    };
+
+    function toGFF(match) {
+    };
+
+    function toBED(match) {
+    };
+
+    self.supported_formats = {
+        'fasta': function() { return self.matches.map(toFasta).join('\n') },
+        'patscan': function() { return self.matches.map(toPatScan).join('\n') },
+    };
+
+    self.supports = function(format) {
+        return self.supported_formats.hasOwnProperty(format);
+    };
+
+    self.convert = function(format) {
+        return self.supported_formats[format]();
+    };
+
+    return self;
+}
+
+function parsePatscan(input) {
+    var lines = input.split('\n');
+    var matches = new PatScanMatches();
+    var current_match = null;
+    for (var i = 0; i < lines.length - 1; i+=2) {
+        var id_line = lines[i];
+        var seqline = lines[i+1];
+        try {
+            var pattern_match = new PatScanMatch(id_line, seqline);
+            matches.add(pattern_match);
+        }
+        catch(e) {
+            console.log(e);
+        }
+    }
+    return matches;
+}
+
 function PatScanViewModel() {
     var self = this;
 
@@ -585,6 +672,8 @@ function PatScanViewModel() {
 
     self.provided = ko.observable(false);
     self.both = ko.observable("false");
+
+    self.outfmt = ko.observable("fasta");
 
     self.getTemplate = function(element) {
         return element.getTemplateType() + "-template";
@@ -636,11 +725,25 @@ function PatScanViewModel() {
     self._result = ko.observable();
     self.processing = ko.observable(false);
 
+    self.format_result = function(data) {
+        if (self.outfmt() == 'fasta') {
+            return data;
+        }
+        var matches = parsePatscan(data);
+        if (!matches.supports(self.outfmt())) {
+            return 'Invalid format: ' + self.outfmt();
+        }
+        return matches.convert(self.outfmt());
+    };
+
     self.result = ko.computed(function() {
         if (self.processing()) {
             return "Processing..."
         };
-        return self._result();
+        if (!self._result()) {
+            return self._result();
+        }
+        return self.format_result(self._result());
     }, self);
 
     self.result_cols = ko.computed(function() {

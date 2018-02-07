@@ -92,6 +92,15 @@
         </div>
 
         <div id="result" data-bind="visible: result">
+          <div>
+            Output format:
+            <div id="output-format">
+              <input type="radio" name="outfmt" id="patscan" value="patscan" data-bind="checked: outfmt" /><label for="patscan">PatScan</label>
+              <input type="radio" name="outfmt" id="fasta" value="fasta" data-bind="checked: outfmt" /><label for="fasta">FASTA</label>
+              <input type="radio" name="outfmt" id="gff" value="gff" data-bind="checked: outfmt" /><label for="gff">GFF</label>
+              <input type="radio" name="outfmt" id="bed" value="bed" data-bind="checked: outfmt" /><label for="bed">BED</label>
+            </div>
+          </div>
           <p>Results:<br>
           <textarea data-bind="value: result, attr: {cols: result_cols, rows: result_rows}"></textarea>
         </div>
@@ -349,6 +358,8 @@
         $("#molecule-type").buttonset();
 
         $("#strand-use").buttonset();
+
+        $("#output-format").buttonset();
 
         $(".toggle").button();
         $(".remove").button({
