@@ -989,7 +989,21 @@ function PatScanViewModel() {
         }
         self.refreshButtons();
         self.json('');
-    }
+    };
+
+    self.fileExt = ko.computed(function() {
+        switch(self.outfmt()) {
+            case "fasta": return ".fa"
+            default: return ".txt"
+        }
+    }, self);
+    self.saveAs = function() {
+        console.log('Saving ' + self.result());
+        FileSaver.saveAs(
+            new Blob([self.result()], {type: "text/plain;charset=utf-8"},
+                'download' + self.fileExt())
+        );
+    };
 }
 
 function SetViewModel(view_model) {

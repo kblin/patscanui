@@ -103,6 +103,9 @@
           </div>
           <p>Results:<br>
           <textarea data-bind="value: result, attr: {cols: result_cols, rows: result_rows}"></textarea>
+          <div>
+            <button id="save-as" data-bind="click: saveAs">Save</button>
+          </div>
         </div>
 
       </div>
@@ -292,6 +295,7 @@
     <script src="{{ url_for('static', filename="js/knockout-drag.js") }}"></script>
     <script src="{{ url_for('static', filename="js/knockout-uniqueid.js") }}"></script>
     <script src="{{ url_for('static', filename="js/ie8-fixup.js") }}"></script>
+    <script src="{{ url_for('static', filename="js/FileSaver.min.js") }}"></script>
     <script src="{{ url_for('static', filename="js/bio.js") }}"></script>
     <script src="{{ url_for('static', filename="js/patscan-viewmodel.js") }}"></script>
     <script type="text/javascript">
@@ -354,6 +358,8 @@
         $("#submit-button2").button({
           icons: { primary: "ui-icon-play" }
         });
+
+        $("#save-as").button();
 
         $("#molecule-type").buttonset();
 
