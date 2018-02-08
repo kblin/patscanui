@@ -574,15 +574,22 @@ function PatScanMatch(id_line, seqline) {
     self.id = groups[1];
     self.start = parseInt(groups[2]);
     self.end = parseInt(groups[3]);
-    self.strand = self.start > self.end ? -1 : 1;
+    self.strand = 1;
+    if (self.start > self.end) {
+        self.strand =  -1;
+        var tmp = self.start;
+        self.start = self.end;
+        self.end = tmp;
+    }
     self.seq = $.trim(seqline);
 
     return self;
 }
 
-function PatScanMatches() {
+function PatScanMatches(molecule_type) {
     var self = this;
 
+    self.molecule_type = molecule_type;
     self.matches = [];
 
     self.max_len = 0;
@@ -593,11 +600,23 @@ function PatScanMatches() {
     };
 
     function toFasta(match) {
-        return ">" + match.id + ":[" + match.start + "," + match.end + "]\n" + match.seq;
+        // instead of using a strand, PatScan just has reverse positions. Sigh.
+        if (match.strand == 1) {
+            return ">" + match.id + ":[" + match.start + "," + match.end + "]\n" + match.seq;
+        } else {
+            return ">" + match.id + ":[" + match.end + "," + match.start + "]\n" + match.seq;
+        }
     };
 
     function toPatScan(match) {
-        var line = match.id + ":[" + match.start + "," + match.end + "]";
+        // instead of using a strand, PatScan just has reverse positions. Sigh.
+        var line = match.id + ":[";
+        if (match.strand == 1) {
+            line += match.start + "," + match.end;
+        } else {
+            line += match.end + "," + match.start;
+        }
+        line += "]";
         var padstring = '';
         var pad_len = self.max_len + 4 - line.length;
         if (pad_len > 0) {
@@ -607,14 +626,50 @@ function PatScanMatches() {
     };
 
     function toGFF(match) {
+        var elements = [];
+        elements.push(match.id);
+        elements.push("PatScan");
+        elements.push(isDNA() ? "nucleotide_match" : "protein_match");
+        elements.push(match.start);
+        elements.push(match.end);
+        elements.push(".");
+        if (isDNA()) {
+            elements.push(match.strand > 0 ? "+" : "-");
+        } else {
+            elements.push(".");
+        }
+        elements.push(".");
+        elements.push(".");
+
+        return elements.join('\t');
     };
 
     function toBED(match) {
+        var elements = [];
+        elements.push(match.id);
+        // BED is 0-based
+        elements.push(match.start - 1);
+        elements.push(match.end);
+        elements.push("PatScan");
+        elements.push(".");
+        if (isDNA()) {
+            elements.push(match.strand > 0 ? "+" : "-");
+        } else {
+            elements.push(".");
+        }
+
+        return elements.join('\t');
+    };
+
+    function isDNA() {
+        return self.molecule_type == "DNA";
     };
 
     self.supported_formats = {
         'fasta': function() { return self.matches.map(toFasta).join('\n') },
         'patscan': function() { return self.matches.map(toPatScan).join('\n') },
+        'gff': function() { return self.matches.map(toGFF).join('\n') },
+        'bed': function() { return self.matches.map(toBED).join('\n') },
     };
 
     self.supports = function(format) {
@@ -628,9 +683,9 @@ function PatScanMatches() {
     return self;
 }
 
-function parsePatscan(input) {
+function parsePatscan(input, molecule_type) {
     var lines = input.split('\n');
-    var matches = new PatScanMatches();
+    var matches = new PatScanMatches(molecule_type);
     var current_match = null;
     for (var i = 0; i < lines.length - 1; i+=2) {
         var id_line = lines[i];
@@ -729,7 +784,7 @@ function PatScanViewModel() {
         if (self.outfmt() == 'fasta') {
             return data;
         }
-        var matches = parsePatscan(data);
+        var matches = parsePatscan(data, self.molecule());
         if (!matches.supports(self.outfmt())) {
             return 'Invalid format: ' + self.outfmt();
         }
@@ -994,14 +1049,18 @@ function PatScanViewModel() {
     self.fileExt = ko.computed(function() {
         switch(self.outfmt()) {
             case "fasta": return ".fa"
+            case "gff": return ".gff"
+            case "bed": return ".bed"
             default: return ".txt"
         }
     }, self);
+
+    self.outFileName = ko.observable('sequence');
+
     self.saveAs = function() {
-        console.log('Saving ' + self.result());
         FileSaver.saveAs(
-            new Blob([self.result()], {type: "text/plain;charset=utf-8"},
-                'download' + self.fileExt())
+            new Blob([self.result()], {type: "text/plain;charset=utf-8"}),
+            self.outFileName() + self.fileExt()
         );
     };
 }

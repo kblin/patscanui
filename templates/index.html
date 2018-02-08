@@ -105,6 +105,8 @@
           <textarea data-bind="value: result, attr: {cols: result_cols, rows: result_rows}"></textarea>
           <div>
             <button id="save-as" data-bind="click: saveAs">Save</button>
+            <input type="text" data-bind="value: outFileName" style="text-align: right">
+            <span data-bind="text: fileExt"></span>
           </div>
         </div>
 
