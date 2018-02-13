@@ -90,7 +90,7 @@
         are done, your work area should look like in Fig. 4.
       </div>
     </div>
-    <div class="tutorial-figure-left`">
+    <div class="tutorial-figure-left">
       <img src="{{ url_for('static', filename='tutorial/example1_1.png') }}"
            alt="Using string and complement patterns" width="550px">
       <div class="figure-text">Fig 4: Using string and complement patterns.</div>
@@ -248,6 +248,46 @@
     <div class="clearfix"></div>
 
   </div>
-
 </div>
+<div id="dialog" title="An Image!" style="display: none;">
+  <img id="image" src=""/>
+</div>
+{% endblock %}
+{% block scripts %}
+
+<script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
+<script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
+<script type="text/javascript">
+
+function imagePopup(title, uri) {
+
+  var image_dialog = $("#dialog");
+  var image_tag = $('#image');
+
+  //Set the image src
+  image_tag.attr('src', uri);
+
+  //When the image has loaded, display the dialog
+  image_tag.load(function(){
+
+    $('#dialog').dialog({
+      modal: true,
+      resizable: false,
+      draggable: false,
+      width: 'auto',
+      title: title
+    });
+  });
+};
+
+function activateImagePopup(e) {
+  e.preventDefault();
+  imagePopup($(this).attr('alt'), $(this).attr('src'));
+};
+
+$(document).ready(function() {
+  $('.tutorial-figure-right').children('img').click(activateImagePopup);
+  $('.tutorial-figure-left').children('img').click(activateImagePopup);
+});
+</script>
 {% endblock %}

@@ -108,9 +108,16 @@ a:active { color: #810E15 }
     float: right;
     width: 45%;
 }
+.tutorial-figure-right img {
+    cursor: pointer;
+}
+
 .tutorial-figure-left {
     float: left;
     width: 45%;
+}
+.tutorial-figure-left img {
+    cursor: pointer;
 }
 
 .figure-text {
