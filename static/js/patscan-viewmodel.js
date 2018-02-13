@@ -539,6 +539,16 @@ function ComplementRule(ruleset) {
         self.ruleset.remove(item);
     }
 
+    self.isInvalid = ko.computed(function() {
+        if (self.ruleset().length < 1) {
+            return true;
+        }
+        if (self.ruleset().some(function(r){return r.isInvalid()})) {
+            return true;
+        }
+        return false;
+    });
+
     self.toJS = function() {
         var obj = self.__proto__.toJS();
         obj.ruleset = self.ruleset().map(function(el) {
@@ -754,14 +764,20 @@ function PatScanViewModel() {
         return plist;
     }, self);
 
-    self.complementRules = ko.computed(function() {
-        var plist = self.pattern_list().filter(function(el) {
-            if (el.type != "complement-rule")
-                return false;
-            return true;
-        });
-        return plist;
-    }, self);
+    self.complementRules = function(item) {
+        var idx = self.pattern_list().indexOf(item);
+        return ko.computed(function() {
+            var valid_patterns = self.pattern_list().slice(0, idx);
+            var plist = valid_patterns.filter(function(el) {
+                if (el.type != "complement-rule")
+                    return false;
+                if (el.isInvalid())
+                    return false;
+                return true;
+            });
+            return plist;
+        }, this);
+    };
 
     self.pattern = ko.computed(function() {
         var plist = []
@@ -828,7 +844,7 @@ function PatScanViewModel() {
         if (idx > 0) {
             return "p" + idx;
         }
-        idx = self.complementRules().indexOf(item) + 1;
+        idx = self.complementRules(0)().indexOf(item) + 1;
         return "r" + idx;
     }
 

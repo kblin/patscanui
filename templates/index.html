@@ -151,8 +151,8 @@
           </select>
         </label>
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
-        <label data-bind="visible: $root.complementRules().length > 0">Ruleset:
-          <select data-bind="options: $root.complementRules,
+        <label data-bind="visible: $root.complementRules($index)().length > 0">Ruleset:
+          <select data-bind="options: $root.complementRules($index),
                              optionsText: $root.getNamedPatternName,
                              value: ruleset,
                              optionsCaption: 'default'">
