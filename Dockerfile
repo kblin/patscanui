@@ -1,7 +1,7 @@
 # PatScanUI docker image
 # VERSION 0.1.0
 FROM alpine:latest
-MAINTAINER Kai Blin <kblin@biosustain.dtu.dk>
+LABEL  maintainer="Kai Blin <kblin@biosustain.dtu.dk>"
 
 RUN apk add --no-cache python py-pip && pip install virtualenv && rm -rf /var/cache/apk/*
 
