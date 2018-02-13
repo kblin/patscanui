@@ -23,7 +23,7 @@ a:active { color: #810E15 }
 
 .nav {
     margin: auto;
-    width: 40%;
+    width: 50%;
     clear: both;
 }
 
@@ -84,6 +84,48 @@ a:active { color: #810E15 }
     */
     -moz-border-radius: 8px;
     border-radius: 8px;
+}
+
+
+.tutorial-desc-left {
+    float: left;
+    width: 45%;
+    position: relative;
+}
+.tutorial-desc-right {
+    float: right;
+    width: 45%;
+    position: relative;
+}
+
+.centered {
+    position: absolute;
+    left: 0;
+    top: 50%;
+}
+
+.tutorial-figure-right {
+    float: right;
+    width: 45%;
+}
+.tutorial-figure-left {
+    float: left;
+    width: 45%;
+}
+
+.figure-text {
+    font-size: 80%;
+    color: #1D1414;
+    padding-left: 2em;
+}
+
+.clearfix {
+    clear: both;
+    padding-top: 1em;
+}
+
+h3.example {
+    padding-top: 1em;
 }
 
 #helpcontent {
