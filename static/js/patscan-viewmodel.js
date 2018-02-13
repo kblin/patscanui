@@ -797,6 +797,10 @@ function PatScanViewModel() {
     self.processing = ko.observable(false);
 
     self.format_result = function(data) {
+        if (data == "No results found for input pattern.") {
+            return data;
+        }
+
         if (self.outfmt() == 'fasta') {
             return data;
         }
