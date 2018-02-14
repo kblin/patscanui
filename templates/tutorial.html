@@ -2,7 +2,7 @@
 {% block body %}
 <div id="contents">
 
-  This tutorial will explain the use of PatScan patterns using a biologically
+  This tutorial will explain the use of <a href="{{ url_for('about') }}">PatScan</a> patterns using a biologically
   relevant example. If you want to follow along, download the input file for the
   <a href="{{ url_for('static', filename='tutorial/example1_input.fa') }}">example</a>.
 
@@ -70,7 +70,9 @@
       <div class="centered">
         In order to add patterns, we use the pattern selector, as shown in Fig.
         3. Patterns can be added to the work area by dragging them from the
-        selector, or simply by clicking on them.
+        selector, or simply by clicking on them. If you need to rearrange
+        patterns, you can simply move them around using drag and drop in the
+        work area.
       </div>
     </div>
     <div class="tutorial-figure-right">
@@ -85,9 +87,10 @@
         string pattern, select <code>C</code>. For the second string pattern,
         select <code>NNNNNN</code>. For the third string pattern, select
         <code>CAGUG</code>. Click the "unnamed" button next to the second string
-        pattern. The button text will change to "p1" and you will be able to
-        select "p1" as a complement option in the complement pattern. Once you
-        are done, your work area should look like in Fig. 4.
+        pattern. The button text will change to "p1", the identifier of this
+        pattern. In the complement pattern, you can now select the “p1”
+        identifier for the “complement of” dropdown. Once you are done, your
+        work area should look like in Fig. 4.
       </div>
     </div>
     <div class="tutorial-figure-left">
