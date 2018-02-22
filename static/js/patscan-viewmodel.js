@@ -913,21 +913,11 @@ function PatScanViewModel() {
         self.pattern_list.push(new ComplementRule([ new ComplementPair("au"), new ComplementPair("ua"),
                                                     new ComplementPair("cg"), new ComplementPair("gc"),
                                                     new ComplementPair("gu"), new ComplementPair("ug") ]));
-        self.pattern_list.push(new StringPattern("ATTGCA"));
-        self.pattern_list.push(new RangePattern(23, 42));
-        self.pattern_list.push(new AlternativePattern([new StringPattern("ATG"), new StringPattern("GTG")]));
-        self.pattern_list()[1].named(true);
+        self.pattern_list.push(new StringPattern("C"));
+        self.pattern_list.push(new RangePattern(5, 6));
+        self.pattern_list.push(new AlternativePattern([new StringPattern("CAGUG"), new StringPattern("GAGAG")]));
         self.pattern_list()[2].named(true);
         self.pattern_list.push(new ComplementPattern(self.pattern_list()[2], self.pattern_list()[0]));
-        self.pattern_list.push(new RepeatPattern(self.pattern_list()[1]));
-        self.pattern_list()[4].variations.mutations(1);
-        self.pattern_list()[4].variations.show(true);
-        self.pattern_list.push(new RangePattern(17, 23));
-        self.pattern_list()[6].named(true);
-        self.pattern_list.push(new LengthLimitPattern([self.pattern_list()[2], self.pattern_list()[6]], 50));
-
-        self.pattern_list.push( new WeightPattern([ new WeightColumn(10,20,30,40), new WeightColumn(20,30,40,10),
-                                                    new WeightColumn(30,40,10,20), new WeightColumn(40,10,20,30)], 100));
         self.refreshButtons();
     }
 
