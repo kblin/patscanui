@@ -735,6 +735,8 @@ function PatScanViewModel() {
     self.molecule = ko.observable("DNA");
     self.allow_named = true;
 
+    self.hint = ko.observable('');
+
     self.provided = ko.observable(false);
     self.both = ko.observable("false");
 
@@ -919,6 +921,7 @@ function PatScanViewModel() {
         self.pattern_list()[2].named(true);
         self.pattern_list.push(new ComplementPattern(self.pattern_list()[2], self.pattern_list()[0]));
         self.refreshButtons();
+        self.hint("This pattern is from our tutorial, see there for an explanation.")
     }
 
     self.upload_message = ko.observable("Before you start, please upload the DNA FASTA file you want to search");
@@ -1024,6 +1027,7 @@ function PatScanViewModel() {
     self.save = function() {
         var json = JSON.stringify(self.toJS(), null, 2);
         self.json(json);
+        self.hint('Select and save this pattern.');
     }
 
     self.load = function() {
@@ -1054,6 +1058,7 @@ function PatScanViewModel() {
         }
         self.refreshButtons();
         self.json('');
+        self.hint('pattern loaded');
     };
 
     self.fileExt = ko.computed(function() {
