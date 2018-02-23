@@ -34,7 +34,7 @@
     starting with a relatively basic example, we will slowly extend it to cover
     more advanced patterns and use cases.
     </p>
-    <h3 class="example" id="example1-1">1.: String and Complement Patterns</h3>
+    <h3 class="example" id="example1-1">1. String and Complement Patterns</h3>
     <p>
     The basic IRE pattern is
     <code>CN<sub>1</sub>N<sub>2</sub>N<sub>3</sub>N<sub>4</sub>N<sub>5</sub>N<sub>6</sub>CAGUGN'<sub>6</sub>N'<sub>5</sub>N'<sub>4</sub>N'<sub>3</sub>N'<sub>2</sub>N'<sub>1</sub></code>,
@@ -55,12 +55,12 @@
       <div class="figure-text">Fig 1: Start page.</div>
     </div>
     <div class="clearfix"></div>
-    <div class="tutorial-desc-right" style="height: 90px">
+    <div class="tutorial-desc-left" style="height: 90px">
       <div class="centered">
         You will end up on an empty pattern input screen.
       </div>
     </div>
-    <div class="tutorial-figure-left">
+    <div class="tutorial-figure-right">
       <img src="{{ url_for('static', filename='tutorial/empty.png') }}"
            alt="Empty pattern field" width="550px">
       <div class="figure-text">Fig 2: Empty pattern input screen.</div>
@@ -81,7 +81,7 @@
       <div class="figure-text">Fig 3: Pattern selector.</div>
     </div>
     <div class="clearfix"></div>
-    <div class="tutorial-desc-right" style="height: 200px">
+    <div class="tutorial-desc-left" style="height: 200px">
       <div class="centered">
         Select three string patterns and one complement patterns. For the first
         string pattern, select <code>C</code>. For the second string pattern,
@@ -93,7 +93,7 @@
         work area should look like in Fig. 4.
       </div>
     </div>
-    <div class="tutorial-figure-left">
+    <div class="tutorial-figure-right">
       <img src="{{ url_for('static', filename='tutorial/example1_1.png') }}"
            alt="Using string and complement patterns" width="550px">
       <div class="figure-text">Fig 4: Using string and complement patterns.</div>
@@ -118,7 +118,7 @@
       <div class="figure-text">Fig 5: Allowing one mutation.</div>
     </div>
     <div class="clearfix"></div>
-    <div class="tutorial-desc-right" style="height: 50px">
+    <div class="tutorial-desc-left" style="height: 50px">
       <div class="centered">
         There is one more detail about the IRE pattern that we don't cover yet.
         The loop region acually can contain an optional sixth base after the
@@ -129,7 +129,7 @@
          Set the range pattern to cover from "0" to "1" bases.
       </div>
     </div>
-    <div class="tutorial-figure-left">
+    <div class="tutorial-figure-right">
       <img src="{{ url_for('static', filename='tutorial/range_pattern.png') }}"
            alt="The loop range pattern" width="550px">
       <div class="figure-text">Fig 6: The loop range pattern in place.</div>
@@ -290,7 +290,6 @@ function activateImagePopup(e) {
 
 $(document).ready(function() {
   $('.tutorial-figure-right').children('img').click(activateImagePopup);
-  $('.tutorial-figure-left').children('img').click(activateImagePopup);
 });
 </script>
 {% endblock %}

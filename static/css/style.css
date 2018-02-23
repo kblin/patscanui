@@ -89,12 +89,7 @@ a:active { color: #810E15 }
 
 .tutorial-desc-left {
     float: left;
-    width: 45%;
-    position: relative;
-}
-.tutorial-desc-right {
-    float: right;
-    width: 45%;
+    width: 40%;
     position: relative;
 }
 
@@ -106,17 +101,15 @@ a:active { color: #810E15 }
 
 .tutorial-figure-right {
     float: right;
-    width: 45%;
+    width: 50%;
+    padding: 0.25em;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    border-color: #1D1414;
+    border-width: 1px;
+    border-style: solid;
 }
 .tutorial-figure-right img {
-    cursor: pointer;
-}
-
-.tutorial-figure-left {
-    float: left;
-    width: 45%;
-}
-.tutorial-figure-left img {
     cursor: pointer;
 }
 
