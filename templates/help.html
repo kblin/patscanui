@@ -58,7 +58,6 @@
   <h2 id="patterns">Available Patterns</h2>
   <p>
     PatScan supports many different pattern types, here we will explain how they work.
-    All 
   </p>
 
   <div id="accordion">
@@ -73,15 +72,16 @@
       </p>
     </div>
 
-    <h3 id="range"><a href="#">Range Pattern</a></h3>
+    <h3 id="range"><a href="#">Range Pattern (insertion range)</a></h3>
     <div>
       <p>
       Range patterns are a shorthand for using a <a class="reference"
-        href="#string">string pattern</a> consisting of a run of <code>N</code>
-      ambiguous bases.  So instead of e.g. specifying a string pattern of
-      <code>NNNNN</code> and allowing for 5 <a class="reference"
-        href="#variations">insertions</a>, you can use a range pattern from
-      <strong>5</strong> to <strong>10</strong>.
+        href="#string">string pattern</a> consisting of a run of
+      arbitrary nucleotides or amino acids. They are especially useful to allow
+      for a variable size of insertions. So if you e.g. wanted to allow for <strong>20</strong>
+      to <strong>30</strong> arbitrary nucleotides, you can use a range pattern from
+      <strong>20</strong> to <strong>30</strong> instead of using a string pattern of 20
+      <code>N</code>s and allowing up to 10 insertions.
       </p>
     </div>
 

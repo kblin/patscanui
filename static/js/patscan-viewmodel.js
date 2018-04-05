@@ -717,7 +717,7 @@ function PatScanViewModel() {
 
     self.constructors = [
         { constructor: StringPattern, type: 'string', text: "String Pattern", show_for: "all" },
-        { constructor: RangePattern, type: 'range', text: "Range Pattern", show_for: "all" },
+        { constructor: RangePattern, type: 'range', text: "Range Pattern (insertion range)", show_for: "all" },
         { constructor: ComplementPattern, type: 'complement', text: "Complement Pattern", show_for: "DNA" },
         { constructor: RepeatPattern, type: 'repeat', text: "Repeat Pattern", show_for: "all" },
         { constructor: AlternativePattern, type: 'alternative', text: "Alternative Pattern", show_for: "all" },
