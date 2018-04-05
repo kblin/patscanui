@@ -124,6 +124,10 @@ a:active { color: #810E15 }
     padding-top: 1em;
 }
 
+.clearfix-nopad {
+    clear: both;
+}
+
 h3.example {
     padding-top: 1em;
 }

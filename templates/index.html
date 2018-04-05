@@ -75,6 +75,8 @@
           </ul>
         </div>
 
+        <div class="clearfix-nopad"></div>
+
         <div id="drop-area" data-bind="visible: !showUploadMenu()">
           <div data-bind="visible: pattern_list().length == 0">Drop new patterns here</div>
           <div id="pattern-list" data-bind="sortable: {template: getTemplate, data: pattern_list, options: {distance: 5, paceholder: 'placeholder'},
