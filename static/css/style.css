@@ -1,5 +1,19 @@
+/* source-sans-pro-regular - latin */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/source-sans-pro-v11-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+       url('../fonts/source-sans-pro-v11-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('../fonts/source-sans-pro-v11-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+       url('../fonts/source-sans-pro-v11-latin-regular.woff') format('woff'), /* Modern Browsers */
+       url('../fonts/source-sans-pro-v11-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+       url('../fonts/source-sans-pro-v11-latin-regular.svg#SourceSansPro') format('svg'); /* Legacy iOS */
+}
+
 body {
-    font-family: 'Tahoma', Verdana, Arial, Sans-Serif;
+    font-family: 'Source Sans Pro', Sans-Serif;
     color: #810e15;
     background-color: #fdfdfd;
     text-align: left;
@@ -220,7 +234,7 @@ h3.example {
 
 .weight-label li {
     margin-right: 1em;
-    padding: 0.25em 0;
+    padding: 0.17em 0;
 }
 
 .complement-pair {
