@@ -924,7 +924,7 @@ function PatScanViewModel() {
         self.hint("This pattern is from our tutorial, see there for an explanation.")
     }
 
-    self.upload_message = ko.observable("Before you start, please upload the DNA FASTA file you want to search");
+    self.upload_message = ko.observable("Before you start, please upload the DNA/protein FASTA file you want to search");
 
     self.showUploadMenu = ko.computed(function() {
         if (self.provided()) {
