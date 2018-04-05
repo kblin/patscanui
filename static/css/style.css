@@ -13,7 +13,7 @@
 }
 
 body {
-    font-family: 'Source Sans Pro', Sans-Serif;
+    font-family: 'Source Sans Pro', sans-serif;
     color: #810e15;
     background-color: #fdfdfd;
     text-align: left;
@@ -234,7 +234,15 @@ h3.example {
 
 .weight-label li {
     margin-right: 1em;
-    padding: 0.17em 0;
+}
+
+.weight-label input {
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
+    font-weight: bold;
+    color: #810e15;
+    background-color: #f2f2f2;
+    border-color: transparent;
 }
 
 .complement-pair {
@@ -247,6 +255,10 @@ h3.example {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.weight input {
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 #trash {
