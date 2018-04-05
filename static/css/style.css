@@ -158,7 +158,7 @@ h3.example {
 }
 
 .ui-button.red-button {
-    background: #810e1555 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+    background: #810e1555 url(smoothness/images/ui-bg_glass_75_red_1x400.png) 50% 50% repeat-x;
 }
 
 .menu {
