@@ -242,20 +242,20 @@
         <ul class="weight-matrix">
           <li class="weight-label">
             <ul>
-              <li><input type="text" size="1" value="A" disabled></li>
-              <li><input type="text" size="1" value="C" disabled></li>
-              <li><input type="text" size="1" value="G" disabled></li>
-              <li><input type="text" size="1" value="T" disabled></li>
+              <li><input class="ui-corner-all" type="text" size="1" value="A" ></li>
+              <li><input class="ui-corner-all" type="text" size="1" value="C" ></li>
+              <li><input class="ui-corner-all" type="text" size="1" value="G" ></li>
+              <li><input class="ui-corner-all" type="text" size="1" value="T" ></li>
               <li>&nbsp;</li>
             </ul>
           </li>
           <!-- ko foreach: matrix -->
           <li class="weight" data-bind="css: { 'ui-state-error': isInvalid() }">
             <ul>
-              <li><input type="text" size="3" data-bind="value: a"></li>
-              <li><input type="text" size="3" data-bind="value: c"></li>
-              <li><input type="text" size="3" data-bind="value: g"></li>
-              <li><input type="text" size="3" data-bind="value: t"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: a"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: c"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: g"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: t"></li>
               <li><button class="remove" data-bind="click: $parent.removeWeight">remove</button></li>
             </ul>
           </li>

@@ -259,6 +259,7 @@ h3.example {
 
 .weight input {
     font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
 }
 
 #trash {
