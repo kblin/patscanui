@@ -2,21 +2,30 @@
 {% block body %}
 <div id="contents">
 
-  This tutorial will explain the use of <a href="{{ url_for('about') }}">PatScan</a> patterns using a biologically
-  relevant example. If you want to follow along, download the input file for the
-  <a href="{{ url_for('static', filename='tutorial/example1_input.fa') }}">example</a>.
+  This tutorial will explain the use of <a href="{{ url_for('about') }}">PatScan</a> patterns using biologically
+  relevant examples. If you want to follow along, download the input files for
+  <a href="{{ url_for('static', filename='tutorial/example1_input.fa') }}">example 1</a> and
+  <a href="{{ url_for('static', filename='tutorial/example2_input.fa') }}">example 2</a>.
 
   <div id="pattern-selections">
     <ol id="tutorial-nav">
-      <li><a href="#example1-1">String and Complement Patterns</a></li>
-      <li><a href="#example1-2">Variations and Range Patterns</a></li>
-      <li><a href="#example1-3">Alternative Patterns</a></li>
-      <li><a href="#example1-4">Alternative Complementation Rules</a></li>
-      <li><a href="#example1-5">Weight Patterns</a></li>
+      <li>Identifying Iron-Response Elements in mRNA
+        <ol>
+          <li><a href="#example1-1">String and Complement Patterns</a></li>
+          <li><a href="#example1-2">Variations and Range Patterns</a></li>
+          <li><a href="#example1-3">Alternative Patterns</a></li>
+          <li><a href="#example1-4">Alternative Complementation Rules</a></li>
+          <li><a href="#example1-5">Weight Patterns</a></li>
+        </ol>
+      </li>
+      <li>Indentifying Cytochrome P450 Cysteine Heme-Iron Ligand Signatures
+        <ol>
+          <li><a href="#example2-1">Any-Of and Not-Any-Of Patterns</a></li>
+        </ol>
     </ol>
   </div>
 
-  <h2 id="example1">Example: Identifying Iron-Response Elements in mRNA.</h2>
+  <h2 id="example1">Example 1: Identifying Iron-Response Elements in mRNA.</h2>
   <div>
     <p>
     Besides its catalytic function in the TCA cycle, the Aconitase enzyme has an
@@ -266,6 +275,28 @@
     <div class="clearfix"></div>
 
   </div>
+
+  <h2>Example 2: Identifying Cytochrome P450 Cysteine Heme-Iron Ligand Signatures (PS00086)</h2>
+  <div>
+    Cytochrome P450 proteins utilise heme cofactors to perform oxidation reactions
+    and are found all over the tree of life. The heme cofactor binds to a cysteine
+    in the active site of the enzyme.
+    In this example, we will build a set of patterns to identify the active site
+    cysteine of cytochrome P450 enzymes found in the proteome of the bacterium
+    <i>Streptomyces coelicolor</i>. We assume that you have already gone over
+    example 1 and are familiar with the basic pattern creation.
+
+    <h3>1. Any-Of and Not-Any-Of Patterns</h3>
+    <p>
+    According to the <a href="https://prosite.expasy.org/PS00086">PROSITE database entry PS00086</a>,
+    the pattern for identifying the active site cysteine is
+    <code>[FW]-[SGNH]-x-[GD]-{F}-[RKHPT]-{P}-C-[LIVMFAP]-[GAD]</code>. If you
+    are not familiar with the PROSITE pattern notation, amino acid letters
+    wrapped in square brackets (<code>[ ]</code>) are alternatives, amino
+    acid letters wrapped by curly braces (<code>{ }</code>) should not be present
+    at a given position, and <code>x</code> means any arbirary amino acid.
+    </p>
+  </div>
 </div>
 <div id="dialog" title="An Image!" style="display: none;">
   <img id="image" src=""/>
@@ -273,8 +304,8 @@
 {% endblock %}
 {% block scripts %}
 
-<script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
-<script src="{{ url_for('static', filename="js/jquery.ui.touch-punch.min.js") }}"></script>
+<script src="{{ url_for('static', filename='js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.ui.touch-punch.min.js') }}"></script>
 <script type="text/javascript">
 
 function imagePopup(title, uri) {

@@ -205,6 +205,12 @@ h3.example {
     padding: 1.5em;
 }
 
+#contents code {
+    background-color: #ddd;
+    padding: 2px;
+    border-radius: 2px;
+}
+
 .sub-drop {
     border: dashed 1px pink;
     padding: 0;
