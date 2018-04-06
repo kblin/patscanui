@@ -187,8 +187,10 @@
 
     <script id="alternative-template" type="text/html">
       <div class="pattern">
+        <div style="float: left; display: block">Alternative:</div>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('alternative')}">Help</button>
+        <div style="clear: both"></div>
         <div class="sub-drop" data-bind="sortable: {template: $root.getTemplate, data: sub_patterns,
                                                     options: {distance: 5, forcePlaceholderSize: true},
                                                     afterMove: $root.refreshButtons, allowDrop: canDrop}">
