@@ -74,7 +74,7 @@
             if($.inArray(ext, settings.valid_extensions) == -1)
             {
               // Pass back to the user
-              settings.onComplete.apply($element, [{result: "error", message: 'The select file type is invalid. File must be ' + settings.valid_extensions.join(', ') + '.'}, settings.params]);
+              settings.onComplete.apply($element, [{result: "error", message: 'The selected file type is invalid. File must be ' + settings.valid_extensions.join(', ') + '.'}, settings.params]);
             } else
             {
               uploading_file = true;

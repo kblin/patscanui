@@ -37,7 +37,7 @@
         <div id="upload" data-bind="visible: showUploadMenu()">
           <p id="upload-message" data-bind="text: upload_message"></p>
           <form>
-            <input id="new-file" type="file" name="file">
+            <input id="new-file" type="file" name="file" accept=".fa,.fna,.faa,.fasta,.txt">
           </form>
           <p>or pick one of the following provided genomes:</p>
           <select data-bind="options: allProvidedFiles,
@@ -393,6 +393,8 @@
           onComplete: function(response) {
             if(response.result == "ok") {
               view_model.current_file(response.filename);
+            } else {
+              view_model.upload_message(response.message);
             }
             $("#new-file").val('');
           },
