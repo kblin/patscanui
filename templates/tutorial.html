@@ -43,46 +43,47 @@
     <a href="{{ url_for('help') }}#complement">complement pattern</a>. Just using a string pattern with <code>CNNNNNNCAGUGNNNNNN</code> would fail to ensure the second
     set of <code>N</code>s would be the reverse complement of the first, so instead we need to break the pattern up a bit.
     </p>
-    <div class="tutorial-desc-left" style="height: 250px">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         On the start page , hit the "Browse" button to upload the
         <code>example1_input.fa</code> file.
       </div>
-    </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/start_page.png') }}"
-           alt="start page">
-      <div class="figure-text">Fig 1: Start page.</div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="tutorial-desc-left" style="height: 90px">
-      <div class="centered">
-        You will end up on an empty pattern input screen.
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/start_page.png') }}"
+             alt="start page">
+        <div class="figure-text">Fig 1: Start page.</div>
       </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/empty.png') }}"
-           alt="Empty pattern field" width="550px">
-      <div class="figure-text">Fig 2: Empty pattern input screen.</div>
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
+        You will end up on an empty pattern input screen.
+      </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/empty.png') }}"
+             alt="Empty pattern field" width="550px">
+        <div class="figure-text">Fig 2: Empty pattern input screen.</div>
+      </div>
     </div>
-    <div class="clearfix"></div>
-    <div class="tutorial-desc-left" style="height: 410px">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         In order to add patterns, we use the pattern selector, as shown in Fig.
         3. Patterns can be added to the work area by dragging them from the
         selector, or simply by clicking on them. If you need to rearrange
         patterns, you can simply move them around using drag and drop in the
         work area.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/pattern_selector.png') }}"
+             alt="Pattern selector" width="550px">
+        <div class="figure-text">Fig 3: Pattern selector.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/pattern_selector.png') }}"
-           alt="Pattern selector" width="550px">
-      <div class="figure-text">Fig 3: Pattern selector.</div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="tutorial-desc-left" style="height: 200px">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         Select three string patterns and one complement patterns. For the first
         string pattern, select <code>C</code>. For the second string pattern,
         select <code>NNNNNN</code>. For the third string pattern, select
@@ -92,16 +93,18 @@
         identifier for the “complement of” dropdown. Once you are done, your
         work area should look like in Fig. 4.
       </div>
-    </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/example1_1.png') }}"
-           alt="Using string and complement patterns" width="550px">
-      <div class="figure-text">Fig 4: Using string and complement patterns.</div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example1_1.png') }}"
+             alt="Using string and complement patterns" width="550px">
+        <div class="figure-text">Fig 4: Using string and complement patterns.</div>
+      </div>
     </div>
     <div class="clearfix"></div>
+
     <h3 class="example" id="example1-2">2. Variations and Range patterns</h3>
-    <div class="tutorial-desc-left">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
       If we run the pattern we created in Example 1.1, we unfortunately don't
       get any hits in the input data. The reason for this is that the IRE motif
       in Bacteria is not as conserved. Notably, the stem region does not need to
@@ -111,15 +114,15 @@
       this pattern can tolerate. Put a "1" in the "mismatches" field and ignore
       the other fields to just allow a single mismatch.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/variations.png') }}"
+             alt="Allowing one mutation" width="550px">
+        <div class="figure-text">Fig 5: Allowing one mutation.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/variations.png') }}"
-           alt="Allowing one mutation" width="550px">
-      <div class="figure-text">Fig 5: Allowing one mutation.</div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="tutorial-desc-left" style="height: 50px">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         There is one more detail about the IRE pattern that we don't cover yet.
         The loop region acually can contain an optional sixth base after the
         <code>CAGUG</code> pattern. Let's add support for this by adding a <a
@@ -128,15 +131,15 @@
          region and the repeat pattern for the reverse part of the stem loop.
          Set the range pattern to cover from "0" to "1" bases.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/range_pattern.png') }}"
+             alt="The loop range pattern" width="550px">
+        <div class="figure-text">Fig 6: The loop range pattern in place.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/range_pattern.png') }}"
-           alt="The loop range pattern" width="550px">
-      <div class="figure-text">Fig 6: The loop range pattern in place.</div>
-    </div>
-    <div class="clearfix"></div>
-    <div class="tutorial-desc-left">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         Another variation that is common on bacterial IREs is that the stem of
         the stem loop structure is only five bases long, not six. We can use
         another range pattern to support this. Hit the "Remove" button on the
@@ -145,17 +148,20 @@
         it says "p1" as before. You also need to select that from the
         "Complement of" dropdown of the complement pattern again.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example1_2.png') }}"
+             alt="Replacing the N string pattern with a range pattern" width="550px">
+        <div class="figure-text">Fig 7: Replacing the N string pattern with a
+          range pattern.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/example1_2.png') }}"
-           alt="Replacing the N string pattern with a range pattern" width="550px">
-      <div class="figure-text">Fig 7: Replacing the N string pattern with a
-        range pattern.</div>
-    </div>
+
     <div class="clearfix"></div>
+
     <h3 class="example" id="example1-3">3. Alternative Patterns</h3>
-    <div class="tutorial-desc-left">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         Not only the stem region but also the loop region can have variations in
         Bacteria. Notably, the loop sequence <code>GAGAG</code> has also been
         reported to be functional. To support searching for <code>CAGUG</code>
@@ -169,16 +175,19 @@
         <code>GAGAG</code>. It does not matter what order the two string patterns
         have inside the alternative pattern.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example1_3.png') }}"
+             alt="Using the alternative pattern" width="550px">
+        <div class="figure-text">Fig 8: Using the alternative pattern.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/example1_3.png') }}"
-           alt="Using the alternative pattern" width="550px">
-      <div class="figure-text">Fig 8: Using the alternative pattern.</div>
-    </div>
+
     <div class="clearfix"></div>
+
     <h3 class="example" id="example1-4">4. Alternative Complementation Rules</h3>
-    <div class="tutorial-desc-left">
-      <div class="centered">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         By default, PatScan uses the regular DNA complementation rules to
         determine which bases can be in a reverse complement. IREs are RNA
         sequences, so additional <code>GU/UG</code> pairs are possible.
@@ -194,15 +203,19 @@
         in. That is, adding e.g. a <code>GU</code> pair does not set up pairing
         rules for <code>UG</code>.
       </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example1_4.png') }}"
+             alt="Using alternative complement rules" width="550px">
+        <div class="figure-text">Fig 9: Using alternative complement rules.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/example1_4.png') }}"
-           alt="Using alternative complement rules" width="550px">
-      <div class="figure-text">Fig 9: Using alternative complement rules.</div>
-    </div>
+
     <div class="clearfix"></div>
+
     <h3 class="example" id="example1-5">5. Weight Patterns</h3>
-    <div class="tutorial-desc-left">
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
         If we wanted to explore further alternatives to the loop pattern
         sequence, we could put alternative patterns into alternative patterns to
         create a deeper logical branching. That approach does get a bit
@@ -242,12 +255,14 @@
         pattern can obtain. There are three bases at "100", one base at "50" and
         one where the lowest valid score is "20", so "370" is the minimum score
         we expect a good pattern to hit.
+      </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example1_5.png') }}"
+             alt="Using a weight pattern" width="550px">
+        <div class="figure-text">Fig 10: Using a weight pattern.</div>
+      </div>
     </div>
-    <div class="tutorial-figure-right">
-      <img src="{{ url_for('static', filename='tutorial/example1_5.png') }}"
-           alt="Using a weight pattern" width="550px">
-      <div class="figure-text">Fig 10: Using a weight pattern.</div>
-    </div>
+
     <div class="clearfix"></div>
 
   </div>
@@ -289,7 +304,7 @@ function activateImagePopup(e) {
 };
 
 $(document).ready(function() {
-  $('.tutorial-figure-right').children('img').click(activateImagePopup);
+  $('.figure').children('img').click(activateImagePopup);
 });
 </script>
 {% endblock %}

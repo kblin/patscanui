@@ -100,22 +100,33 @@ a:active { color: #810E15 }
     border-radius: 8px;
 }
 
+.tutorial-box {
+    margin-top: 1em;
+}
 
-.tutorial-desc-left {
+.tutorial-box > * {
     float: left;
-    width: 40%;
-    position: relative;
+    margin-right: 1em;
 }
 
-.centered {
-    position: absolute;
-    left: 0;
-    top: 50%;
+.tutorial-box:before,
+.tutorial-box:after {
+    content: " ";
+    display: table;
 }
 
-.tutorial-figure-right {
-    float: right;
-    width: 50%;
+.tutorial-box:after {
+    clear: both;
+}
+
+.tutorial-content {
+    min-width: 45%;
+    max-width: 45%;
+    display: block;
+    text-align: justify;
+}
+
+.figure {
     padding: 0.25em;
     -moz-border-radius: 8px;
     border-radius: 8px;
@@ -123,7 +134,7 @@ a:active { color: #810E15 }
     border-width: 1px;
     border-style: solid;
 }
-.tutorial-figure-right img {
+.figure img {
     cursor: pointer;
 }
 
