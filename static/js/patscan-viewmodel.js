@@ -63,6 +63,15 @@ function Pattern(type) {
 
 }
 
+
+function isInvalidSequence(sequence, molecule_type) {
+    var invalid_chars = /[^ACGTMRWSYKVHDBNU]/;
+    if (molecule_type != "DNA") {
+        invalid_chars = /[^ACDEFGHIKLMNPQRSTVWY]/;
+    }
+    return invalid_chars.test(sequence);
+}
+
 function StringPattern(sequence, mutations, insertions, deletions) {
     var self = Object.create(new Pattern('string'));
 
@@ -79,6 +88,14 @@ function StringPattern(sequence, mutations, insertions, deletions) {
     self.reverseComplement = function() {
         self.sequence(reverse_complement(self.sequence()));
     }
+
+    self.isInvalid = ko.computed(function (){
+        var vm = GetViewModel();
+        if (vm) {
+            return isInvalidSequence(self.sequence(), vm.molecule());
+        }
+        return true;
+    }, self);
 
     self.toJS = function() {
         var obj = self.__proto__.toJS();
@@ -290,6 +307,10 @@ function AnyOfPattern(sequence) {
         return "any(" + self.sequence() + ")";
     }, self);
 
+    self.isInvalid = ko.computed(function (){
+        return isInvalidSequence(self.sequence(), "protein");
+    }, self);
+
     self.toJS = function() {
         var obj = self.__proto__.toJS();
         obj.sequence = self.sequence();
@@ -314,6 +335,10 @@ function NotAnyOfPattern(sequence) {
         }
 
         return "notany(" + self.sequence() + ")";
+    }, self);
+
+    self.isInvalid = ko.computed(function (){
+        return isInvalidSequence(self.sequence(), "protein");
     }, self);
 
     self.toJS = function() {

@@ -121,12 +121,13 @@
 {% endblock %}
 {% block scripts %}
     <script id="string-template" type="text/html">
-      <div class="pattern">
+      <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <input type="text" data-bind="value: sequence">
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
         <button class="reverse-complement" data-bind="click: reverseComplement, visible: $root.molecule() == 'DNA'">Reverse Complement</button>
+        <span data-bind="visible: isInvalid">Invalid input</span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('string')}">Help</button>
       </div>
@@ -196,20 +197,22 @@
     </script>
 
     <script id="anyof-template" type="text/html">
-      <div class="pattern">
+      <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Any of: <input type="text" data-bind="value: sequence"></label>
+        <span data-bind="visible: isInvalid">Invalid input</span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('anyof')}">Help</button>
       </div>
     </script>
 
     <script id="notanyof-template" type="text/html">
-      <div class="pattern">
+      <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
         <label>Not any of: <input type="text" data-bind="value: sequence"></label>
+        <span data-bind="visible: isInvalid">Invalid input</span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('notanyof')}">Help</button>
       </div>
