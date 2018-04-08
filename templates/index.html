@@ -124,7 +124,7 @@
       <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
-        <input type="text" data-bind="value: sequence">
+        <input type="text" data-bind="value: sequence, valueUpdate: 'input'">
         <span data-bind="template: { name: 'variations-template', data: variations }"></span>
         <button class="reverse-complement" data-bind="click: reverseComplement, visible: $root.molecule() == 'DNA'">Reverse Complement</button>
         <span data-bind="visible: isInvalid">Invalid input</span>
@@ -137,8 +137,8 @@
       <div class="pattern">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
-        <label>From: <input type="text" size="5" data-bind="value: from" /></label>
-        <label>To: <input type="text" size="5" data-bind="value: to" /></label>
+        <label>From: <input type="text" size="5" data-bind="value: from, valueUpdate: 'input'" /></label>
+        <label>To: <input type="text" size="5" data-bind="value: to, valueUpdate: 'input'" /></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('range')}">Help</button>
       </div>
@@ -202,7 +202,7 @@
       <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
-        <label>Any of: <input type="text" data-bind="value: sequence"></label>
+        <label>Any of: <input type="text" data-bind="value: sequence, valueUpdate: 'input'"></label>
         <span data-bind="visible: isInvalid">Invalid input</span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('anyof')}">Help</button>
@@ -213,7 +213,7 @@
       <div class="pattern" data-bind="css: { 'ui-state-error': isInvalid() }">
         <label class="pattern-label" data-bind="visible: $parent.allow_named, uniqueFor: named, click: updateName">unamed</label>
         <input type="checkbox" data-bind="visible: $parent.allow_named, checked: named, uniqueId: named" class="toggle"/>
-        <label>Not any of: <input type="text" data-bind="value: sequence"></label>
+        <label>Not any of: <input type="text" data-bind="value: sequence, valueUpdate: 'input'"></label>
         <span data-bind="visible: isInvalid">Invalid input</span>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('notanyof')}">Help</button>
@@ -231,7 +231,7 @@
                              multiple="true">
           </select>
         </label>
-        <label>is less than:<input type="text" data-bind="value: length" size="3"></label>
+        <label>is less than:<input type="text" data-bind="value: length, valueUpdate: 'input'" size="3"></label>
         <button class="remove float-right" data-bind="click: $parent.removePattern">Remove</button>
         <button class="help-button float-right" data-bind="click: function() {openHelp('length')}">Help</button>
       </div>
@@ -257,17 +257,17 @@
           <!-- ko foreach: matrix -->
           <li class="weight" data-bind="css: { 'ui-state-error': isInvalid() }">
             <ul>
-              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: a"></li>
-              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: c"></li>
-              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: g"></li>
-              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: t"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: a, valueUpdate: 'input'"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: c, valueUpdate: 'input'"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: g, valueUpdate: 'input'"></li>
+              <li><input class="ui-corner-all" type="text" size="3" data-bind="value: t, valueUpdate: 'input'"></li>
               <li><button class="remove" data-bind="click: $parent.removeWeight">remove</button></li>
             </ul>
           </li>
           <!-- /ko -->
         </ul>
         <br>
-        <label>Weight: <input type="text" size=4 data-bind="value: weight"></label>
+        <label>Weight: <input type="text" size=4 data-bind="value: weight, valueUpdate: 'input'"></label>
       </div>
     </script>
 
@@ -281,7 +281,7 @@
           <!-- ko foreach: ruleset -->
           <li>
           <ul class="complement-pair" data-bind="css: { 'ui-state-error': isInvalid() }">
-              <li><input type="text" size=2 data-bind="value: sequence"></li>
+              <li><input type="text" size=2 data-bind="value: sequence, valueUpdate: 'input'"></li>
               <li><button class="remove" data-bind="click: $parent.removeComplementPair">remove</button></li>
             </ul>
           </li>
@@ -292,9 +292,9 @@
 
     <script id="variations-template" type="text/html">
       <label data-bind="uniqueFor: show">Variations</label><input type="checkbox" class="toggle" data-bind="checked: show, uniqueId: show"/>
-      <label data-bind="visible: show">Mutations: <input type="text" size="3" data-bind="value: mutations" /></label>
-      <label data-bind="visible: show">Insertions: <input type="text" size="3" data-bind="value: insertions" /></label>
-      <label data-bind="visible: show">Deletions: <input type="text" size="3" data-bind="value: deletions" /></label>
+      <label data-bind="visible: show">Mutations: <input type="text" size="3" data-bind="value: mutations, valueUpdate: 'input'" /></label>
+      <label data-bind="visible: show">Insertions: <input type="text" size="3" data-bind="value: insertions, valueUpdate: 'input'" /></label>
+      <label data-bind="visible: show">Deletions: <input type="text" size="3" data-bind="value: deletions, valueUpdate: 'input'" /></label>
     </script>
 
     <script src="{{ url_for('static', filename="js/jquery-ui-1.8.22.custom.min.js") }}"></script>
