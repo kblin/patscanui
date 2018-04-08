@@ -594,6 +594,16 @@ function ComplementRule(ruleset) {
     return self;
 }
 
+function RNAComplementRule() {
+    var self = Object.create(new ComplementRule([
+        new ComplementPair("AU"), new ComplementPair("UA"),
+        new ComplementPair("GC"), new ComplementPair("CG"),
+        new ComplementPair("GU"), new ComplementPair("UG")
+    ]));
+
+    return self;
+}
+
 function PatScanMatch(id_line, seqline) {
     var self = this;
 
@@ -750,6 +760,7 @@ function PatScanViewModel() {
         { constructor: NotAnyOfPattern, type: 'notanyof', text: "Not-Any-Of Pattern", show_for: "protein" },
         { constructor: LengthLimitPattern, type: 'length', text: "Length Limit Pattern", show_for: "all" },
         { constructor: WeightPattern, type: 'weight', text: "Weight Pattern", show_for: "DNA" },
+        { constructor: RNAComplementRule, type: 'complement-rule', text: "RNA Complementation Rule", show_for: "DNA" },
         { constructor: ComplementRule, type: 'complement-rule', text: "Alternative Complementation Rule", show_for: "DNA" }
     ];
 
