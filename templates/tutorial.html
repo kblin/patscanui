@@ -27,7 +27,7 @@
 
   <h2 id="example1">Example 1: Identifying Iron-Response Elements in mRNA.</h2>
   <div>
-    <p>
+    <p class="tutorial-intro">
     Besides its catalytic function in the TCA cycle, the Aconitase enzyme has an
     important regulatory function in both Eukaryotes and Prokaryotes. When
     active as a regulator, Aconitase binds specific structural motifs in mRNA,
@@ -44,10 +44,10 @@
     more advanced patterns and use cases.
     </p>
     <h3 class="example" id="example1-1">1. String and Complement Patterns</h3>
-    <p>
+    <p class="tutorial-intro">
     The basic IRE pattern is
     <code>CN<sub>1</sub>N<sub>2</sub>N<sub>3</sub>N<sub>4</sub>N<sub>5</sub>N<sub>6</sub>CAGUGN'<sub>6</sub>N'<sub>5</sub>N'<sub>4</sub>N'<sub>3</sub>N'<sub>2</sub>N'<sub>1</sub></code>,
-    where <code>N<sub>x</sub></code> is any amino acid, and <code>N'<sub>x</sub></code> is its complement.<br>
+    where <code>N<sub>x</sub></code> is any nucleotide, and <code>N'<sub>x</sub></code> is its complement.
     An initial attempt at finding such a pattern using PatScan would use a number of <a href="{{ url_for('help') }}#string">string patterns</a> and a
     <a href="{{ url_for('help') }}#complement">complement pattern</a>. Just using a string pattern with <code>CNNNNNNCAGUGNNNNNN</code> would fail to ensure the second
     set of <code>N</code>s would be the reverse complement of the first, so instead we need to break the pattern up a bit.
@@ -278,6 +278,7 @@
 
   <h2>Example 2: Identifying Cytochrome P450 Cysteine Heme-Iron Ligand Signatures (PS00086)</h2>
   <div>
+    <p class="tutorial-intro">
     Cytochrome P450 proteins utilise heme cofactors to perform oxidation reactions
     and are found all over the tree of life. The heme cofactor binds to a cysteine
     in the active site of the enzyme.
@@ -285,9 +286,8 @@
     cysteine of cytochrome P450 enzymes found in the proteome of the bacterium
     <i>Streptomyces coelicolor</i>. We assume that you have already gone over
     example 1 and are familiar with the basic pattern creation.
-
-    <h3>1. Any-Of and Not-Any-Of Patterns</h3>
-    <p>
+    </p>
+    <p class="tutorial-intro">
     According to the <a href="https://prosite.expasy.org/PS00086">PROSITE database entry PS00086</a>,
     the pattern for identifying the active site cysteine is
     <code>[FW]-[SGNH]-x-[GD]-{F}-[RKHPT]-{P}-C-[LIVMFAP]-[GAD]</code>. If you
@@ -296,6 +296,61 @@
     acid letters wrapped by curly braces (<code>{ }</code>) should not be present
     at a given position, and <code>x</code> means any arbirary amino acid.
     </p>
+
+    <h3>1. Any-Of and Not-Any-Of Patterns</h3>
+    <div class="tutorial-box">
+      <div class="tutorial-content">
+        PatScan has two protein-specific patterns that allow us to search for patterns like this.
+        The <a href="{{ url_for('help') }}#anyof">any-of pattern</a> allows to specify a list of alternatives,
+        matching the square brackets (<code>[ ]</code>) in the PROSITE format. The
+        <a href="{{ url_for('help') }}#notanyof">not-any-of pattern</a> allows to
+        give a list of amino acids that should not be present, matching the curly braces (<code>{ }</code>)
+        in the PROSITE format. Note that both the any-of and the not-any-of pattern
+        don't take a location but instead need to be inserted into your overall pattern
+        at the location where you want to allow/disallow multiple amino acids.
+        So if you wanted to match the sequences <code>MAGICHAT</code> and <code>MAGICCAT</code>,
+        you want to allow for both <code>H</code> and <code>C</code> at position 6 in the sequence.
+        In order to build this pattern in PatScan, you need to break it up into three parts.
+        You need a string pattern for <code>MAGIC</code>, an any-of pattern for <code>CH</code>
+        and another string pattern for <code>AT</code>, as shown in figure 11.
+        The PROSITE pattern for this would be <code>MAGIC-[CH]-AT</code>, so you can usually
+        use the dashes (<code>-</code>) in the PROSITE pattern to figure out where
+        you need differnt pattern elements.
+      </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/simple_anyof.png') }}"
+             alt="Simple anyof example" width="550px">
+        <div class="figure-text">Fig 11: Example use of the any-of pattern.</div>
+      </div>
+    </div>
+
+    <div class="tutorial-box">
+      <div class="tutorial-content">
+        With the help of the any-of and not-any-of patterns, we can go now and build
+        a PatScan pattern for
+        <code>[FW]-[SGNH]-x-[GD]-{F}-[RKHPT]-{P}-C-[LIVMFAP]-[GAD]</code>. We will
+        need ten pattern elements. The fastest way to add them is to click on
+        the respective elements in the selector. You will need two any-of patterns,
+        a range pattern, an any-of pattern, a not-any-of pattern, an any-of pattern,
+        a not-any-of pattern, a string pattern, and two any-of patterns. The first
+        two any-of patterns take <code>FW</code> and <code>SGNH</code>, respectively.
+        There is a single <code>x</code> in the PROSITE pattern, which translates to
+        a range pattern from <code>1</code> to <code>1</code>. The next any-of pattern
+        takes the <code>GD</code>. The not-any-of pattern takes an <code>F</code>.
+        The next any-of pattern takes <code>RKHPT</code>, the not-any-of pattern takes
+        a <code>P</code>. The single <code>C</code> goes into the string pattern.
+        The last two any-of patterns take <code>LIVMFAP</code> and <code>GAD</code>,
+        respectively. See figure 12 for the example.
+        Clicking "Submit" sends off the request, yielding eleven hits
+        on the <i>Streptomyces coelicolor</i> proteome.
+      </div>
+      <div class="figure">
+        <img src="{{ url_for('static', filename='tutorial/example2_1.png') }}"
+             alt="The cytochrome P450 active site pattern." width="550px">
+        <div class="figure-text">Fig 12: The cytochrome P450 active site pattern.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 <div id="dialog" title="An Image!" style="display: none;">

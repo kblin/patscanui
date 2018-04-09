@@ -126,6 +126,10 @@ a:active { color: #810E15 }
     text-align: justify;
 }
 
+.tutorial-intro {
+    text-align: justify;
+}
+
 .figure {
     padding: 0.25em;
     -moz-border-radius: 8px;
