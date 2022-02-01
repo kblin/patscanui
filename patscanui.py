@@ -25,10 +25,10 @@ from flask import Flask, render_template, request, jsonify
 from flask import send_from_directory
 
 app = Flask(__name__)
-app.secret_key = "secret"
-app.config['UPLOAD_FOLDER'] = os.environ.get('PATSCAN_UPLOAD_FOLDER', '/store')
-app.config['PROVIDED_FOLDER'] = os.environ.get('PATSCAN_PROVIDED_FOLDER',
-                                               '/data/genomes/fasta')
+app.secret_key = os.environ.get('PATSCAN_SECRET', "__SECRET__")
+app.config['UPLOAD_FOLDER'] = os.environ.get('PATSCAN_UPLOAD_FOLDER', './store')
+app.config['PROVIDED_FOLDER'] = os.environ.get('PATSCAN_PROVIDED_FOLDER','./data')
+app.config['PATSCAN_PATH'] = os.environ.get('PATSCAN_PATH', 'patscan')
 
 ALLOWED_EXTENSIONS = set(['fa', 'fna', 'fasta', 'faa', 'txt'])
 
@@ -119,7 +119,7 @@ def _run_patscan(filename, provided, pattern, molecule_type, both):
             full_path = path.join(app.config['UPLOAD_FOLDER'], filename)
         with open(full_path, 'r') as handle:
             with TemporaryPipe() as pipe:
-                command_line = ['patscan']
+                command_line = [app.config['PATSCAN_PATH']]
                 if both:
                     command_line.append('-c')
                 if molecule_type.lower() == "protein":
